@@ -99,7 +99,7 @@ public class ManipulationExperimentA : MonoBehaviour
         float delta = (transform.position - leftController.position).magnitude;
         if (delta < grabRadius)
         {
-            Debug.Log($"Grabbed {name} (left hand, rotation)");
+            Debug.Log($"Grabbed {name} (left hand, rotation)"); // create an event
             rotOffset = transform.rotation * Quaternion.Inverse(leftController.rotation);
             grabbedLeft = true;
         }

@@ -1,12 +1,17 @@
+//using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ManipulationControl : MonoBehaviour
 {
+    public static bool IsGrabbedGlobal = false;
 
     public float grabRadius;
     public GameObject leftController;
     public GameObject rightController;
+
+    // events
+    public GrabEventSystem rightHandGrab = new GrabEventSystem();
 
     private XRIDefaultInputActions controls;
 
@@ -52,10 +57,15 @@ public class ManipulationControl : MonoBehaviour
     private void LeftGripStarted(InputAction.CallbackContext ctx)
     {
         float delta = (transform.position - leftController.transform.position).magnitude;
+        //Debug.Log("Grip button pressed!");
+        Debug.Log("Grip button pressed!");
+        Debug.Log($"Distance to left controller: {delta}");
         if (delta < grabRadius && transform.parent == null)
         {
             Debug.Log($"Grabbed {name} (left hand)");
             transform.SetParent(leftController.transform);
+
+            IsGrabbedGlobal = true;
         }
     }
     /// <summary>
@@ -68,6 +78,8 @@ public class ManipulationControl : MonoBehaviour
         {
             Debug.Log($"Released {name} (left hand)");
             transform.parent = null;
+
+            IsGrabbedGlobal = false;
         }
     }
     /// <summary>
@@ -81,6 +93,8 @@ public class ManipulationControl : MonoBehaviour
         {
             Debug.Log($"Grabbed {name} (right hand)");
             transform.SetParent(rightController.transform);
+
+            IsGrabbedGlobal = true;
         }
     }
     /// <summary>
@@ -93,6 +107,9 @@ public class ManipulationControl : MonoBehaviour
         {
             Debug.Log($"Released {name} (right hand)");
             transform.parent = null;
+
+            // >>> CHANGED: clear global grab flag on release
+            IsGrabbedGlobal = false; // <<< CHANGED
         }
     }
 }

@@ -27,7 +27,6 @@
   <Project Path="Unity.XR.CoreUtils.csproj" />
   <Project Path="Unity.XR.Simulation.Editor.csproj" />
   <Project Path="Unity.Searcher.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.XR.Hands.csproj" />
   <Project Path="UnityEditor.TestRunner.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Runtime.csproj" />
@@ -43,6 +42,7 @@
   <Project Path="Unity.Burst.Editor.csproj" />
   <Project Path="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.csproj" />
   <Project Path="Unity.Rider.Editor.csproj" />
+  <Project Path="Unity.XR.Interaction.Toolkit.Samples.DeviceSimulator.csproj" />
   <Project Path="Unity.XR.ARFoundation.VisualScripting.csproj" />
   <Project Path="Unity.XR.ARSubsystems.Editor.csproj" />
   <Project Path="Unity.Performance.Profile-Analyzer.Editor.csproj" />
@@ -54,6 +54,7 @@
   <Project Path="Unity.XR.OpenXR.Editor.csproj" />
   <Project Path="Unity.XR.AndroidOpenXR.Editor.csproj" />
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.XR.Interaction.Toolkit.Analytics.Editor.csproj" />
   <Project Path="Unity.XR.Management.Editor.csproj" />
   <Project Path="Unity.XR.OpenXR.Features.MetaQuestSupport.Editor.csproj" />
