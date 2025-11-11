@@ -3,12 +3,12 @@ using UnityEngine.Events;
 
 public static class GrabEventSystem
 {
-    // UnityEvent that passes which object was grabbed and by which hand
-    public UnityEvent<GameObject, string> OnGrab = new UnityEvent<GameObject, string>();
-    public UnityEvent<GameObject, string> OnRelease = new UnityEvent<GameObject, string>();
+    // Static, readonly UnityEvents: who was grabbed and by which hand ("Left"/"Right")
+    public static readonly UnityEvent<GameObject, string> OnGrab = new UnityEvent<GameObject, string>();
+    public static readonly UnityEvent<GameObject, string> OnRelease = new UnityEvent<GameObject, string>();
 
-    // Optional: simple global flag
-    public static bool IsObjectGrabbed { get; private set; } = false;
+    // Optional global flag
+    public static bool IsObjectGrabbed { get; private set; }
 
     public static void TriggerGrab(GameObject obj, string hand)
     {

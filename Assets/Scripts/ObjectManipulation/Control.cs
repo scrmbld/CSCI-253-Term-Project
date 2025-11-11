@@ -1,17 +1,18 @@
-//using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+// using UnityEngine.Events; // only needed if you create local UnityEvents
 
 public class ManipulationControl : MonoBehaviour
 {
+    // Optional global: not used below, but keep if others read it
     public static bool IsGrabbedGlobal = false;
 
-    public float grabRadius;
+    [Header("Grab Settings")]
+    public float grabRadius = 0.2f;
+
+    [Header("Controllers")]
     public GameObject leftController;
     public GameObject rightController;
-
-    // events
-    public GrabEventSystem rightHandGrab = new GrabEventSystem();
 
     private XRIDefaultInputActions controls;
 
@@ -22,94 +23,98 @@ public class ManipulationControl : MonoBehaviour
 
     void OnEnable()
     {
+        // Subscribe input callbacks
         InputAction leftGripAction = controls.XRILeftLocomotion.GrabMove;
-
         leftGripAction.started += LeftGripStarted;
         leftGripAction.canceled += LeftGripCanceled;
 
         InputAction rightGripAction = controls.XRIRightLocomotion.GrabMove;
-
         rightGripAction.started += RightGripStarted;
         rightGripAction.canceled += RightGripCanceled;
 
         controls.Enable();
+
+        // Example: if you want to react globally elsewhere, subscribe here:
+        // GrabEventSystem.OnGrab.AddListener(OnAnyGrab);
+        // GrabEventSystem.OnRelease.AddListener(OnAnyRelease);
     }
 
     void OnDisable()
     {
+        // Unsubscribe input callbacks
         InputAction leftGripAction = controls.XRILeftLocomotion.GrabMove;
-
         leftGripAction.started -= LeftGripStarted;
         leftGripAction.canceled -= LeftGripCanceled;
 
         InputAction rightGripAction = controls.XRIRightLocomotion.GrabMove;
-
         rightGripAction.started -= RightGripStarted;
         rightGripAction.canceled -= RightGripCanceled;
 
-        controls.Enable();
+        // Disable (you had Enable() here by mistake)
+        controls.Disable();
+
+        // If you subscribed to global events above, unsubscribe here:
+        // GrabEventSystem.OnGrab.RemoveListener(OnAnyGrab);
+        // GrabEventSystem.OnRelease.RemoveListener(OnAnyRelease);
     }
 
-    /// <summary>
-    /// Left grip button pressed callback. Checks for grab.
-    /// </summary>
-    /// <param name="ctx"></param>
+    // LEFT
     private void LeftGripStarted(InputAction.CallbackContext ctx)
     {
-        float delta = (transform.position - leftController.transform.position).magnitude;
-        //Debug.Log("Grip button pressed!");
-        Debug.Log("Grip button pressed!");
-        Debug.Log($"Distance to left controller: {delta}");
+        if (leftController == null) return;
+
+        float delta = Vector3.Distance(transform.position, leftController.transform.position);
+        Debug.Log($"Grip (Left) pressed. Distance={delta:F3}");
+
         if (delta < grabRadius && transform.parent == null)
         {
-            Debug.Log($"Grabbed {name} (left hand)");
-            transform.SetParent(leftController.transform);
-
+            transform.SetParent(leftController.transform, true);
             IsGrabbedGlobal = true;
+            GrabEventSystem.TriggerGrab(gameObject, "Left");
+            Debug.Log($"Grabbed {name} (left hand)");
         }
     }
-    /// <summary>
-    /// Left grip button released callback. Releases grab.
-    /// </summary>
-    /// <param name="ctx"></param>
+
     private void LeftGripCanceled(InputAction.CallbackContext ctx)
     {
-        if (transform.parent != null)
+        // only release if this object is currently parented to the left controller
+        if (transform.parent == leftController?.transform)
         {
-            Debug.Log($"Released {name} (left hand)");
-            transform.parent = null;
-
+            transform.SetParent(null, true);
             IsGrabbedGlobal = false;
+            GrabEventSystem.TriggerRelease(gameObject, "Left");
+            Debug.Log($"Released {name} (left hand)");
         }
     }
-    /// <summary>
-    /// Right grip button pressed callback. Checks for grab.
-    /// </summary>
-    /// <param name="ctx"></param>
+
+    // RIGHT
     private void RightGripStarted(InputAction.CallbackContext ctx)
     {
-        float delta = (transform.position - rightController.transform.position).magnitude;
+        if (rightController == null) return;
+
+        float delta = Vector3.Distance(transform.position, rightController.transform.position);
         if (delta < grabRadius && transform.parent == null)
         {
-            Debug.Log($"Grabbed {name} (right hand)");
-            transform.SetParent(rightController.transform);
-
+            transform.SetParent(rightController.transform, true);
             IsGrabbedGlobal = true;
+            GrabEventSystem.TriggerGrab(gameObject, "Right");
+            Debug.Log($"Grabbed {name} (right hand)");
         }
     }
-    /// <summary>
-    /// Right grip button released callback. Releases grab.
-    /// </summary>
-    /// <param name="ctx"></param>
+
     private void RightGripCanceled(InputAction.CallbackContext ctx)
     {
-        if (transform.parent != null)
+        // only release if this object is currently parented to the right controller
+        if (transform.parent == rightController?.transform)
         {
+            transform.SetParent(null, true);
+            IsGrabbedGlobal = false;
+            GrabEventSystem.TriggerRelease(gameObject, "Right");
             Debug.Log($"Released {name} (right hand)");
-            transform.parent = null;
-
-            // >>> CHANGED: clear global grab flag on release
-            IsGrabbedGlobal = false; // <<< CHANGED
         }
     }
+
+    // Example global listeners if you want them:
+    // private void OnAnyGrab(GameObject obj, string hand) { /* ... */ }
+    // private void OnAnyRelease(GameObject obj, string hand) { /* ... */ }
 }
