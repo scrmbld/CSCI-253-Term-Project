@@ -16,6 +16,10 @@ public class ManipulationControl : MonoBehaviour
 
     private XRIDefaultInputActions controls;
 
+    // X/Y Button Mappings
+    private bool xPressed = false;
+    private bool yPressed = false;
+
     void Awake()
     {
         controls = new XRIDefaultInputActions();
@@ -117,4 +121,44 @@ public class ManipulationControl : MonoBehaviour
     // Example global listeners if you want them:
     // private void OnAnyGrab(GameObject obj, string hand) { /* ... */ }
     // private void OnAnyRelease(GameObject obj, string hand) { /* ... */ }
+
+    // Check X and Y button presses, activate X for undo, Y for redo
+    void LateUpdate()
+    {
+        // Get the left controller device
+        UnityEngine.XR.InputDevice leftHand = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.LeftHand);
+
+        if (leftHand.isValid)
+        {
+            // X = Undo
+            if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out bool xValue) && xValue)
+            {
+                if (!xPressed)
+                {
+                    xPressed = true;
+                    if (UndoManager.Instance)
+                    {
+                        UndoManager.Instance.Undo();
+                        Debug.Log("Undo triggered via X button.");
+                    }
+                }
+            }
+            else xPressed = false;
+
+            // Y = Redo
+            if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bool yValue) && yValue)
+            {
+                if (!yPressed)
+                {
+                    yPressed = true;
+                    if (UndoManager.Instance)
+                    {
+                        UndoManager.Instance.Redo();
+                        Debug.Log("Redo triggered via Y button.");
+                    }
+                }
+            }
+            else yPressed = false;
+        }
+    }
 }
