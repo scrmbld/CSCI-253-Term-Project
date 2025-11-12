@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 58768316}
   - component: {fileID: 58768321}
   - component: {fileID: 58768320}
+  - component: {fileID: 58768322}
   m_Layer: 0
   m_Name: TestItem
   m_TagString: Untagged
@@ -259,6 +260,19 @@ MonoBehaviour:
   grabRadius: 0.4
   leftController: {fileID: 339896031}
   rightController: {fileID: 1197674157}
+--- !u!114 &58768322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58768315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a391f9cb90949ee8a6cd5b9d81c63d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undoableObject: {fileID: 0}
 --- !u!1001 &138366919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -971,6 +985,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -50.634, y: -47.012, z: -60.382}
+--- !u!1 &622987093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 622987095}
+  - component: {fileID: 622987094}
+  m_Layer: 0
+  m_Name: UndoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &622987094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622987093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70274968efe4458c8abe8397de5de73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugUndoStack: []
+  debugRedoStack: []
+--- !u!4 &622987095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622987093}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.035259, y: -6.889725, z: 16.20075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &852922316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1167,6 +1227,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1933401442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933401444}
+  - component: {fileID: 1933401443}
+  m_Layer: 0
+  m_Name: NavigationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1933401443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933401442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9336fd88647e5a4a8a3048e3411d969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineNav: {fileID: 0}
+  itemObject: {fileID: 58768319}
+  goalObject: {fileID: 589982440}
+--- !u!4 &1933401444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933401442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.035259, y: -6.889725, z: 16.20075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2116878094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1247,3 +1354,5 @@ SceneRoots:
   - {fileID: 1869106774}
   - {fileID: 58768319}
   - {fileID: 589982440}
+  - {fileID: 1933401444}
+  - {fileID: 622987095}
