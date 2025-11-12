@@ -33,13 +33,20 @@ public class ItemObject : MonoBehaviour
 
     void Update()
     {
-        shape.Equivalent(goal);
-        // if (shape.Equivalent(goal))
-        // {
-        //     Debug.Log($"{name}: Goal!");
-        // } else
-        // {
-        //     Debug.Log($"{name}: No Goal!");
-        // }
+        if (shape.Equivalent(goal))
+        {
+            Debug.Log("Goal!");
+            ManipulationControl cManipulator = GetComponent<ManipulationControl>();
+            if (cManipulator != null)
+            {
+                cManipulator.enabled = false;
+            }
+            ManipulationExperimentA eManipulator = GetComponent<ManipulationExperimentA>();
+            if (eManipulator != null)
+            {
+                eManipulator.enabled = false;
+            }
+            enabled = false;
+        }
     }
 }

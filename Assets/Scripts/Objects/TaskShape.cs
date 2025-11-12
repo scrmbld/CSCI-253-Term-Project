@@ -77,9 +77,6 @@ namespace TaskShape
                     other.ShapeTransform().rotation,
                     new Vector3(4, 4, 4)
                 );
-            Debug.Log($"us: {obj.transform.rotation.eulerAngles}");
-            Debug.Log($"them: {other.ShapeTransform().rotation.eulerAngles}");
-            Debug.Log($"delta: {rotDelta}");
             return rotDelta < Shape.rotationThreshold && transDelta < Shape.translationThreshold;
         }
 
@@ -164,7 +161,6 @@ namespace TaskShape
                     new Vector3(2, 360, 2)
                 );
 
-            Debug.Log($"Delta: {rotDelta}");
             return rotDelta < Shape.rotationThreshold && transDelta < Shape.translationThreshold;
         }
 

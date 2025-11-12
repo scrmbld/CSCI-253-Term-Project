@@ -14,11 +14,11 @@ public class ManipulationControl : MonoBehaviour
     public GameObject leftController;
     public GameObject rightController;
 
-    private XRIDefaultInputActions controls;
+    private ProjectInputActions controls;
 
     void Awake()
     {
-        controls = new XRIDefaultInputActions();
+        controls = new ProjectInputActions();
     }
 
     void OnEnable()
@@ -50,8 +50,9 @@ public class ManipulationControl : MonoBehaviour
         rightGripAction.started -= RightGripStarted;
         rightGripAction.canceled -= RightGripCanceled;
 
-        // Disable (you had Enable() here by mistake)
         controls.Disable();
+
+        transform.SetParent(null, true);
 
         // If you subscribed to global events above, unsubscribe here:
         // GrabEventSystem.OnGrab.RemoveListener(OnAnyGrab);
