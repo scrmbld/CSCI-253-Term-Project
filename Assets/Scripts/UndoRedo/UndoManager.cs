@@ -43,6 +43,7 @@ public class UndoManager : MonoBehaviour
 
     public void SaveState(GameObject gameObject)
     {
+        Debug.Log(gameObject);
         if (gameObject == null) { return; }
 
         ObjectState state = new ObjectState(gameObject);
@@ -57,9 +58,9 @@ public class UndoManager : MonoBehaviour
     public void Undo()
     {
         Debug.Log("Undo() triggered.");
-        if (undoStack.Count <= 1)
+        if (undoStack.Count < 1)
         {
-            Debug.Log($"Stack has {undoStack.Count} state. Nothing to undo.");
+            Debug.Log($"Nothing to undo.");
             return; 
         }
 
@@ -73,12 +74,13 @@ public class UndoManager : MonoBehaviour
 
         // For testing
         LogState($"{prevState.targetObject?.name} state reverted back to:", prevState);
+        Debug.Log($"Undo Stack size: {undoStack.Count}");
     }
 
     public void Redo()
     {
         Debug.Log("Redo() triggered.");
-        if (redoStack.Count == 0)
+        if (redoStack.Count < 1)
         {
             Debug.Log("Redo stack empty. Nothing to redo.");
             return;
@@ -90,9 +92,11 @@ public class UndoManager : MonoBehaviour
 
         // Push undo state to undo stack
         undoStack.Push(redoState);
- 
+
         // For testing
         LogState($"{redoState.targetObject.name} state redone to:", redoState);
+        Debug.Log($"Redo Stack size: {redoStack.Count}");
+
     }
 
     private void LogState(string message, ObjectState newState)
