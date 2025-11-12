@@ -8,6 +8,17 @@ public class UndoManager : MonoBehaviour
     private Stack<ObjectState> undoStack = new Stack<ObjectState>();
     private Stack<ObjectState> redoStack = new Stack<ObjectState>();
 
+    // ------------------------------------------------------------------------------------
+    // Viewable stacks in Unity for debugging
+    [SerializeField] private List<ObjectState> debugUndoStack = new List<ObjectState>();        
+    [SerializeField] private List<ObjectState> debugRedoStack = new List<ObjectState>();
+    private void SyncDebugStacks()
+    {
+        debugUndoStack = new List<ObjectState>(undoStack);
+        debugRedoStack = new List<ObjectState>(redoStack);
+    }
+    // ------------------------------------------------------------------------------------
+
     // Prevents SaveState during undo/redo
     private bool isRestoring;
 
@@ -44,11 +55,12 @@ public class UndoManager : MonoBehaviour
 
         ObjectState state = new ObjectState(gameObject);
         undoStack.Push(state);
-        // For testing
-        LogState($"{gameObject.name} saved at:", undoStack.Peek());
 
         // Remove any redo history
         redoStack.Clear();
+        // For testing
+        LogState($"{gameObject.name} saved at:", undoStack.Peek());
+        SyncDebugStacks();
     }
 
     public void Undo()
@@ -74,6 +86,7 @@ public class UndoManager : MonoBehaviour
         // For testing
         LogState($"{prevState.targetObject?.name} state reverted back to:", prevState);
         Debug.Log($"Undo Stack size: {undoStack.Count}");
+        SyncDebugStacks();
     }
 
     public void Redo()
@@ -98,6 +111,7 @@ public class UndoManager : MonoBehaviour
         // For testing
         LogState($"{redoState.targetObject.name} state redone to:", redoState);
         Debug.Log($"Redo Stack size: {redoStack.Count}");
+        SyncDebugStacks();
 
     }
 
