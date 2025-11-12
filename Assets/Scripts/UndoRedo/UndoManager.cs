@@ -8,6 +8,9 @@ public class UndoManager : MonoBehaviour
     private Stack<ObjectState> undoStack = new Stack<ObjectState>();
     private Stack<ObjectState> redoStack = new Stack<ObjectState>();
 
+    // Prevents SaveState during undo/redo
+    private bool isRestoring;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,13 +20,6 @@ public class UndoManager : MonoBehaviour
         }
         Instance = this;
         Debug.Log("UndoManager initialized.");
-    }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -63,14 +59,17 @@ public class UndoManager : MonoBehaviour
             Debug.Log($"Nothing to undo.");
             return; 
         }
+        isRestoring = true;
 
-        // Pop object's current state  and move to redoStack
+        // Pop object's current state
         ObjectState currState = undoStack.Pop();
         redoStack.Push(currState);
 
         // Restore previous state
         ObjectState prevState = undoStack.Peek();
         prevState.RestoreState();
+        isRestoring = false;
+
 
         // For testing
         LogState($"{prevState.targetObject?.name} state reverted back to:", prevState);
@@ -86,9 +85,12 @@ public class UndoManager : MonoBehaviour
             return;
         }
 
+        isRestoring = true;
+
         // Pop the current state from the redo stack to restore
         ObjectState redoState = redoStack.Pop();
         redoState.RestoreState();
+        isRestoring = false;
 
         // Push undo state to undo stack
         undoStack.Push(redoState);

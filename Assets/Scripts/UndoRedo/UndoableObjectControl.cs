@@ -7,7 +7,7 @@ public class UndoableObjectControl : MonoBehaviour
     public ManipulationControl undoableObject;
 
     // Initialize object state
-    void Awake()
+    void Start()
     {
         if (undoableObject == null)
         {
@@ -19,7 +19,7 @@ public class UndoableObjectControl : MonoBehaviour
         }
         else
         {
-            Debug.Log("UndoManager.Instance is null in awake");
+            Debug.Log("UndoManager.Instance is null in start");
         }
     }
 
