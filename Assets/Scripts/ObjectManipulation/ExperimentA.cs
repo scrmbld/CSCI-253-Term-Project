@@ -8,7 +8,7 @@ public class ManipulationExperimentA : MonoBehaviour
     public Transform leftController;
     public Transform rightController;
 
-    private XRIDefaultInputActions controls;
+    private ProjectInputActions controls;
 
     private bool grabbedLeft = false;
     private bool grabbedRight = false;
@@ -20,7 +20,7 @@ public class ManipulationExperimentA : MonoBehaviour
 
     void Awake()
     {
-        controls = new XRIDefaultInputActions();
+        controls = new ProjectInputActions();
     }
 
     void Start()
@@ -55,7 +55,10 @@ public class ManipulationExperimentA : MonoBehaviour
         rightGripAction.started -= RightGripStarted;
         rightGripAction.canceled -= RightGripCanceled;
 
-        controls.Enable();
+        controls.Disable();
+
+        grabbedLeft = false;
+        grabbedRight = false;
     }
 
     void Update()

@@ -4,6 +4,7 @@ using TaskShape;
 public class ItemObject : MonoBehaviour
 {
     public ShapeType type;
+    public ShapeColor color;
     public GameObject goalObject;
     private Shape shape;
     private Shape goal;
@@ -15,12 +16,16 @@ public class ItemObject : MonoBehaviour
         switch (type)
         {
             case ShapeType.Cube:
-                shape = new Cube(gameObject);
-                goal = new Cube(goalObject);
+                shape = new Cube(gameObject, color);
+                goal = new Cube(goalObject, color);
                 break;
             case ShapeType.Sphere:
-                shape = new Sphere(gameObject);
-                goal = new Sphere(goalObject);
+                shape = new Sphere(gameObject, color);
+                goal = new Sphere(goalObject, color);
+                break;
+            case ShapeType.Cylinder:
+                shape = new Cylinder(gameObject, color);
+                goal = new Cylinder(goalObject, color);
                 break;
                 // TODO: Other shapes
         }
@@ -30,10 +35,18 @@ public class ItemObject : MonoBehaviour
     {
         if (shape.Equivalent(goal))
         {
-            Debug.Log($"{name}: Goal!");
-        } else
-        {
-            Debug.Log($"{name}: No Goal!");
+            Debug.Log("Goal!");
+            ManipulationControl cManipulator = GetComponent<ManipulationControl>();
+            if (cManipulator != null)
+            {
+                cManipulator.enabled = false;
+            }
+            ManipulationExperimentA eManipulator = GetComponent<ManipulationExperimentA>();
+            if (eManipulator != null)
+            {
+                eManipulator.enabled = false;
+            }
+            enabled = false;
         }
     }
 }
