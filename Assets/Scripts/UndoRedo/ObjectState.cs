@@ -8,14 +8,14 @@ public struct ObjectState
 
     // Name for testing/debugging
     public string name;
-    public UndoableObjectControl targetObject;
+    public UndoableObject targetObject;
     public Vector3 savedPosition;
     public Quaternion savedRotation;
     public Vector3 savedScale;
 
 
     // Constructor
-    public ObjectState(UndoableObjectControl gameObject)
+    public ObjectState(UndoableObject gameObject)
     {
         targetObject = gameObject;
 

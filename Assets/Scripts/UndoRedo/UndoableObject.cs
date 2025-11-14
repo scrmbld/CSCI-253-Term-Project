@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UndoableObjectControl : MonoBehaviour
+public class UndoableObject : MonoBehaviour
 {
     public ManipulationControl undoableObject;
 
