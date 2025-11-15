@@ -38,6 +38,17 @@
                     "action": "ToggleMiniMap",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a30c2f6-f314-4c1f-b4a3-ccc683ea5db0",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
