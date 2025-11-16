@@ -1,0 +1,57 @@
+{
+    "version": 1,
+    "name": "MiniMap",
+    "maps": [
+        {
+            "name": "GamePlay",
+            "id": "3c87e496-01fe-4242-b505-89959d254a0e",
+            "actions": [
+                {
+                    "name": "ToggleMiniMap",
+                    "type": "Button",
+                    "id": "47fa38bf-811d-4f71-b783-697d8ef4dee8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1ba0e012-183b-48b9-85b6-a2c8863ea875",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db65bd19-f2dc-440f-a3c8-3b793cf032bb",
+                    "path": "<QuestProTouchController>/menu",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a30c2f6-f314-4c1f-b4a3-ccc683ea5db0",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMiniMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
