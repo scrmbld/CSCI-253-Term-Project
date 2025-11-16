@@ -1,6 +1,6 @@
 # Undo/Redo Documentation
 
-## For undo/redo to work, the object needs to be configured:
+## For undo/redo to work, the Undo Manager needs to be configured:
 - UndoManager: Either the UndoManagerControl or UndoManagerExperimental prefab must exist in the scene hierarchy
     - Only one version of Undo is meant to exist at a time, so if both are in the hierarchy, disable or delete one 
         - UndoManagerControl enables traditional undo: Immediately restoring object's previous state
@@ -11,7 +11,7 @@
 - Manipulation Control (Script): Allows the object to be moved/rotated
     - Left Controller set to Left Controller
     - Right Controller set to Right Controller
-- Undoable Object (Script): Tells by the UndoManager that the object state can be saved/restored
+- Undoable Object (Script): Tells the UndoManager that the object state can be saved/restored
 
 ## To use undo/redo in the scene:
 - Simulator (keyboard controls)
