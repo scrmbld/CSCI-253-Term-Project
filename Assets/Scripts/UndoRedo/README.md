@@ -21,5 +21,6 @@
     - X button: Undo (control) or Move backwards in object history (experimental)
     - Y button: Redo (control) or Move forwards in object history (experimental)
 
-Keyboard mappings exist in UndoManagerControl/UndoManagerExperimental
+Keyboard mappings exist in UndoManagerControl.cs/UndoManagerExperimental.cs
+
 VR Controller mappings exist in ButtonMapping.cs
