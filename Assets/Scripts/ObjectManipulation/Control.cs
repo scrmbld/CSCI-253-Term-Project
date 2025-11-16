@@ -127,39 +127,77 @@ public class ManipulationControl : MonoBehaviour
     void LateUpdate()
     {
         // Get the left controller device
-        UnityEngine.XR.InputDevice leftHand = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.LeftHand);
+        UnityEngine.XR.InputDevice leftHand =
+            UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.LeftHand);
 
-        if (leftHand.isValid)
-        {
-            // X = Undo
-            if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out bool xValue) && xValue)
-            {
-                if (!xPressed)
-                {
-                    xPressed = true;
-                    if (UndoManager.Instance)
-                    {
-                        UndoManager.Instance.Undo();
-                        Debug.Log("Undo triggered via X button.");
-                    }
-                }
-            }
-            else xPressed = false;
+        if (!leftHand.isValid || UndoManager.Instance == null)
+            return;
 
-            // Y = Redo
-            if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bool yValue) && yValue)
-            {
-                if (!yPressed)
-                {
-                    yPressed = true;
-                    if (UndoManager.Instance)
-                    {
-                        UndoManager.Instance.Redo();
-                        Debug.Log("Redo triggered via Y button.");
-                    }
-                }
-            }
-            else yPressed = false;
-        }
+        // --- Read X button (primary) ---
+        bool xDown = leftHand.TryGetFeatureValue(
+            UnityEngine.XR.CommonUsages.primaryButton, out bool xValue
+        ) && xValue;
+
+        bool xJustPressed = xDown && !xPressed;
+
+        // Report to UndoManager
+        UndoManager.Instance.OnUndoInput(xDown, xJustPressed);
+
+        // Track previous state for edge detection
+        xPressed = xDown;
+
+        // --- Read Y button (secondary) ---
+        bool yDown = leftHand.TryGetFeatureValue(
+            UnityEngine.XR.CommonUsages.secondaryButton, out bool yValue
+        ) && yValue;
+
+        bool yJustPressed = yDown && !yPressed;
+
+        // Report to UndoManager
+        UndoManager.Instance.OnRedoInput(yDown, yJustPressed);
+
+        // Track previous state
+        yPressed = yDown;
     }
+
+
+    // Old LateUpdate() in case the new one breaks anything
+    // void LateUpdate()
+    // {
+    //     // Get the left controller device
+    //     UnityEngine.XR.InputDevice leftHand = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.LeftHand);
+
+    //     if (leftHand.isValid)
+    //     {
+    //         // X = Undo
+    //         if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out bool xValue) && xValue)
+    //         {
+    //             if (!xPressed)
+    //             {
+    //                 xPressed = true;
+    //                 if (UndoManager.Instance)
+    //                 {
+    //                     UndoManager.Instance.Undo();
+    //                     Debug.Log("Undo triggered via X button.");
+    //                 }
+    //             }
+    //         }
+    //         else xPressed = false;
+
+    //         // Y = Redo
+    //         if (leftHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bool yValue) && yValue)
+    //         {
+    //             if (!yPressed)
+    //             {
+    //                 yPressed = true;
+    //                 if (UndoManager.Instance)
+    //                 {
+    //                     UndoManager.Instance.Redo();
+    //                     Debug.Log("Redo triggered via Y button.");
+    //                 }
+    //             }
+    //         }
+    //         else yPressed = false;
+    //     }
+    // }
 }
