@@ -7,6 +7,11 @@ public class UndoManagerExperimental : UndoManager
 {
     // Serialized for debugging
     [SerializeField] private List<ObjectState> objectHistory = new List<ObjectState>();
+    [SerializeField] private int currIndex = 0;
+    private UndoableObject grabbedObject = null;
+
+    private bool objectIsBeingGrabbed = false;
+    private bool isRestoring = false;
 
     protected override void Awake()
     {
@@ -16,45 +21,112 @@ public class UndoManagerExperimental : UndoManager
     // Update is called once per frame
     void Update()
     {
-        // TODO : Scrub through object history while grabbing
+        if (objectIsBeingGrabbed && !isRestoring)
+        {
+            SaveState(grabbedObject);
+        }
+
+        // Keyboard controls for simulator testing
+        // Meta Controller mappings in Assets/Scripts/ObjectManipulation/Control.cs
+        if (Keyboard.current.zKey.isPressed && !Keyboard.current.xKey.isPressed)
+        {
+            Undo();
+        }
+        if (Keyboard.current.zKey.wasReleasedThisFrame)
+        {
+            isRestoring = false;
+        }
+        if (Keyboard.current.xKey.isPressed && !Keyboard.current.zKey.isPressed)
+        {
+            Redo();
+        }
+        if (Keyboard.current.xKey.wasReleasedThisFrame)
+        {
+            isRestoring = false;
+        }
     }
     
     // Subscribe and Unsubscribe to GrabEvents
     private void OnEnable()
     {
         GrabEventSystem.OnGrab.AddListener(OnObjectGrab);
+        GrabEventSystem.OnRelease.AddListener(OnObjectRelease);
     }
     private void OnDisable()
     {
         GrabEventSystem.OnGrab.RemoveListener(OnObjectGrab);
     }
+
+    // Grab Events for object grab and object release
     private void OnObjectGrab(GameObject grabbedObject, string hand)
     {
-        // Check if grabbed object is undoable and saves state
+        // Check if grabbed object is undoable
         UndoableObject undoableObject = grabbedObject.GetComponentInParent<UndoableObject>();
         if (undoableObject != null)
-        {
-            SaveState(undoableObject);
+        {   
+            objectIsBeingGrabbed = true;
+            // Clears object history if grabbed object is not object in current history
+            if (undoableObject != this.grabbedObject)
+            {
+                objectHistory.Clear();
+                SaveInitialState(undoableObject);
+            }
         }
+    }
+    private void OnObjectRelease(GameObject grabbedObject, string hand)
+    {
+        objectIsBeingGrabbed = false;
+    }
+
+    // Save state functions
+    public void SaveInitialState(UndoableObject gameObject)
+    {
+        Debug.Log($"NEW object {gameObject} grabbed");
+        this.grabbedObject = gameObject;
+
+        // Add initial state to object history
+        objectHistory.Add(new ObjectState(gameObject));
+        currIndex = objectHistory.Count - 1;
     }
 
     public void SaveState(UndoableObject gameObject)
-    {
-        // Save state code
+    {   
+        // Compare current state with most recent saved state
+        ObjectState current = new ObjectState(gameObject);
+        ObjectState recent = objectHistory[objectHistory.Count - 1];
+        // Save if object state is different from the most current save state
+        if (current.savedPosition != recent.savedPosition || current.savedRotation != recent.savedRotation || current.savedScale != recent.savedScale)
+        {
+            objectHistory.Add(current);
+            currIndex = objectHistory.Count - 1;
+        }
     }
 
+    // Undo and Redo functions
     public override void Undo()
     {
-        // Move backwards through the object history list
+        if (currIndex < 0)
+        {
+            Debug.Log($"Nothing to undo.");
+            return; 
+        }
+        isRestoring = true;
+
+        // Iterate backwards through the Object History
+        ObjectState savedState = objectHistory[--currIndex];
+        savedState.RestoreState();
     }
 
     public override void Redo()
     {
-        // Move forwards through the object history lsit
-    }
-    
-    private void LogState(string message, ObjectState newState)
-    {
-        Debug.Log($"{message}\nPosition: {newState.savedPosition}; Rotation: {newState.savedRotation}; Scale: {newState.savedScale}");
+        if (currIndex > objectHistory.Count - 1)
+        {
+            Debug.Log($"Nothing to redo.");
+            return; 
+        }
+        
+        // Iterate forwards through the object history list
+        ObjectState savedState = objectHistory[++currIndex];
+        savedState.RestoreState();
     }
 }
