@@ -5,37 +5,45 @@ using UnityEngine;
 // Stores object transform states for undo/redo access
 public struct ObjectState
 {
-    public GameObject targetObject;
-    public Vector3 position;
-    public Quaternion rotation;
-    public Vector3 scale;
 
-    public ObjectState(GameObject gameObject)
+    // Name for testing/debugging
+    public string name;
+    public UndoableObject targetObject;
+    public Vector3 savedPosition;
+    public Quaternion savedRotation;
+    public Vector3 savedScale;
+
+
+    // Constructor
+    public ObjectState(UndoableObject gameObject)
     {
         targetObject = gameObject;
 
         if (gameObject != null)
         {
-            position = gameObject.transform.position;
-            rotation = gameObject.transform.rotation;
-            scale = gameObject.transform.localScale;
+            name = gameObject.name;
+            savedPosition = gameObject.transform.position;
+            savedRotation = gameObject.transform.rotation;
+            savedScale = gameObject.transform.localScale;
         }
         else
         {
-            position = Vector3.zero;
-            rotation = Quaternion.identity;
-            scale = Vector3.one;
+            name = "null object";
+            savedPosition = Vector3.zero;
+            savedRotation = Quaternion.identity;
+            savedScale = Vector3.one;
         }
 
     }
 
+    // Sets the target object current state to be the stored object state
     public void RestoreState()
     {
         if (targetObject == null) { return; }
 
-        Transform t = targetObject.transform;
-        t.position = position;
-        t.rotation = rotation;
-        t.localScale = scale;
+        Transform current = targetObject.transform;
+        current.position = savedPosition;
+        current.rotation = savedRotation;
+        current.localScale = savedScale;
     }
 }
