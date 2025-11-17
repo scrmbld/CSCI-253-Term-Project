@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class GroundLineNavigation : MonoBehaviour
+public class NewGroundLine : MonoBehaviour
 {
     public Transform startPoint;
     public Transform targetPoint;
