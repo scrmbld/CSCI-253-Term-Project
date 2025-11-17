@@ -12,8 +12,8 @@ public class GroundLineNavigation : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = 0.08f;
-        lineRenderer.endWidth = 0.08f;
+        lineRenderer.startWidth = 0.03f;
+        lineRenderer.endWidth = 0.03f;
         lineRenderer.useWorldSpace = true;
     }
 
@@ -21,8 +21,17 @@ public class GroundLineNavigation : MonoBehaviour
     {
         if (startPoint != null && targetPoint != null)
         {
-            lineRenderer.SetPosition(0, startPoint.position);
-            lineRenderer.SetPosition(1, targetPoint.position);
+            // Get positions
+            Vector3 startPos = startPoint.position;
+            Vector3 targetPos = targetPoint.position;
+
+            // Slightly above ground so it doesn’t Z-fight
+            startPos.y += 0.05f;
+            targetPos.y += 0.05f;
+
+            // Apply to line
+            lineRenderer.SetPosition(0, startPos);
+            lineRenderer.SetPosition(1, targetPos);
         }
     }
 }
