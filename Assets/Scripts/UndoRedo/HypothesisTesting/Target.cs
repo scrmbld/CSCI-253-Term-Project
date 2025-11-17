@@ -9,6 +9,8 @@ public class Target : MonoBehaviour
     public float positionTolerance = 0.15f;
     public float rotationToleranceDegrees = 25f;
 
+    // public Transform targetTransform;
+
     // Uncomment if you want to see satified condition in debugging
     // [HideInInspector]
     public bool isSatisfied = false;
