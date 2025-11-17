@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1389659301174902768}
   - component: {fileID: 7682745466113421235}
   m_Layer: 0
-  m_Name: ControllerMapping
+  m_Name: ButtonMapping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
