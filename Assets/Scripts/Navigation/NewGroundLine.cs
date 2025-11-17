@@ -12,8 +12,8 @@ public class NewGroundLine : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = 0.03f;
-        lineRenderer.endWidth = 0.03f;
+        lineRenderer.startWidth = 0.08f;
+        lineRenderer.endWidth = 0.08f;
         lineRenderer.useWorldSpace = true;
     }
 
@@ -21,17 +21,14 @@ public class NewGroundLine : MonoBehaviour
     {
         if (startPoint != null && targetPoint != null)
         {
-            // Get positions
-            Vector3 startPos = startPoint.position;
-            Vector3 targetPos = targetPoint.position;
+            Vector3 startpos = startPoint.position;
+            Vector3 targetpos = targetPoint.position;
 
-            // Slightly above ground so it doesn’t Z-fight
-            startPos.y += 0.05f;
-            targetPos.y += 0.05f;
+            startpos.y = startPoint.position.y + 0.02f;
+            targetpos.y = targetPoint.position.y + 0.02f;
 
-            // Apply to line
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, targetPos);
+            lineRenderer.SetPosition(0, startpos);
+            lineRenderer.SetPosition(1, targetpos);
         }
     }
 }
