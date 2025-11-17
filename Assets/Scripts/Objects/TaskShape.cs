@@ -1,12 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TaskShape
 {
     public enum ShapeColor
     {
-        Gray,
+        Red,
         Green,
-        Orange,
         Blue,
         Purple
     }
@@ -24,8 +24,8 @@ namespace TaskShape
     /// </summary>
     public interface Shape
     {
-        static float translationThreshold = 1.0f;
-        static float rotationThreshold = 20.0f;
+        static float translationThreshold = 0.3f;
+        static float rotationThreshold = 10.0f;
         /// <summary>
         /// Returns true if this shape and the one passed in have symmetry equivalent transforms, within a threshold. 
         /// </summary>
@@ -180,7 +180,7 @@ namespace TaskShape
         }
     }
 
-    class Angles
+    public class Angles
     {
         /// <summary>
         /// Gets the Euler angles difference between a and b, accounting for the symmetries
@@ -224,4 +224,10 @@ namespace TaskShape
             return minimumDelta;
         }
     }
+
+    /// <summary>
+    /// An event used to indicate that an object has been successfully placed in its goal
+    /// location. Contents are the item object and the goal object.
+    /// </summary>
+    public class GoalEvent : UnityEvent<GameObject, GameObject> { }
 }

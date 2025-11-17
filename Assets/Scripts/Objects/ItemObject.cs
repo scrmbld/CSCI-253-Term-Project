@@ -6,6 +6,7 @@ public class ItemObject : MonoBehaviour
     public ShapeType type;
     public ShapeColor color;
     public GameObject goalObject;
+    public GoalEvent goalReached = new GoalEvent();
     private Shape shape;
     private Shape goal;
 
@@ -27,7 +28,6 @@ public class ItemObject : MonoBehaviour
                 shape = new Cylinder(gameObject, color);
                 goal = new Cylinder(goalObject, color);
                 break;
-                // TODO: Other shapes
         }
     }
 
@@ -35,18 +35,7 @@ public class ItemObject : MonoBehaviour
     {
         if (shape.Equivalent(goal))
         {
-            Debug.Log("Goal!");
-            ManipulationControl cManipulator = GetComponent<ManipulationControl>();
-            if (cManipulator != null)
-            {
-                cManipulator.enabled = false;
-            }
-            ManipulationExperimentA eManipulator = GetComponent<ManipulationExperimentA>();
-            if (eManipulator != null)
-            {
-                eManipulator.enabled = false;
-            }
-            enabled = false;
+            goalReached.Invoke(gameObject, goalObject);
         }
     }
 }
