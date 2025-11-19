@@ -30,6 +30,7 @@ TagManager:
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
   - GazeTarget
+  - BagIcon
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - Road
   - building
   - Map Marker
-  - 
+  - BagUiI
   - 
   - 
   - 
