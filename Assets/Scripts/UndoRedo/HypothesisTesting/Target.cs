@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -38,5 +39,19 @@ public class Target : MonoBehaviour
                 // TODO: Change pad color to red? or maybe leave at red always until satisfied?
             }
         }
+    }
+
+    public float GetAccuracyScore(Transform placed)
+    {
+        float distance = Vector3.Distance(placed.position, transform.position);
+        float angle = Quaternion.Angle(placed.rotation, transform.rotation);
+
+        // Map distance and angle into [0,1] scores then combine
+        // 1 = perfect, 0 = at/beyond tolerance
+        float posScore = Mathf.Clamp01(1f - distance / positionTolerance);
+        float rotScore = Mathf.Clamp01(1f - angle / rotationToleranceDegrees);
+
+        // Combine (simple average)
+        return (posScore + rotScore) * 0.5f;
     }
 }

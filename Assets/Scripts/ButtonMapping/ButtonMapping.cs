@@ -22,8 +22,10 @@ public class ButtonMapping : MonoBehaviour
 
         bool xJustPressed = xDown && !xPressed;
 
+        bool xJustReleased = !xDown && xPressed;
+
         // Report to UndoManager
-        UndoManager.Instance.OnUndoInput(xDown, xJustPressed);
+        UndoManager.Instance.OnUndoInput(xDown, xJustPressed, xJustReleased);
 
         // Track previous state for edge detection
         xPressed = xDown;
@@ -33,8 +35,10 @@ public class ButtonMapping : MonoBehaviour
 
         bool yJustPressed = yDown && !yPressed;
 
+        bool yJustReleased = !yDown && yPressed;
+
         // Report to UndoManager
-        UndoManager.Instance.OnRedoInput(yDown, yJustPressed);
+        UndoManager.Instance.OnRedoInput(yDown, yJustPressed, yJustReleased);
 
         // Track previous state
         yPressed = yDown;
