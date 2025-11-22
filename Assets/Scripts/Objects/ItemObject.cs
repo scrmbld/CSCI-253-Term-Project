@@ -6,6 +6,7 @@ public class ItemObject : MonoBehaviour
     public ShapeType type;
     public ShapeColor color;
     public GameObject goalObject;
+    public GoalEvent goalReached = new GoalEvent();
     private Shape shape;
     private Shape goal;
 
@@ -27,19 +28,14 @@ public class ItemObject : MonoBehaviour
                 shape = new Cylinder(gameObject, color);
                 goal = new Cylinder(goalObject, color);
                 break;
-                // TODO: Other shapes
         }
     }
 
     void Update()
     {
-        shape.Equivalent(goal);
-        // if (shape.Equivalent(goal))
-        // {
-        //     Debug.Log($"{name}: Goal!");
-        // } else
-        // {
-        //     Debug.Log($"{name}: No Goal!");
-        // }
+        if (shape.Equivalent(goal))
+        {
+            goalReached.Invoke(gameObject, goalObject);
+        }
     }
 }
