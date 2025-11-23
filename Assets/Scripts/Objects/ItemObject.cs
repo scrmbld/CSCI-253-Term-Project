@@ -6,7 +6,6 @@ public class ItemObject : MonoBehaviour
     public ShapeType type;
     public ShapeColor color;
     public GameObject goalObject;
-    public GoalEvent goalReached = new GoalEvent();
     private Shape shape;
     private Shape goal;
 
@@ -35,7 +34,7 @@ public class ItemObject : MonoBehaviour
     {
         if (shape.Equivalent(goal))
         {
-            goalReached.Invoke(gameObject, goalObject);
+            ItemEventSystem.GoalReached.Invoke(gameObject, goalObject);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace TaskShape
     public interface Shape
     {
         static float translationThreshold = 0.3f;
-        static float rotationThreshold = 10.0f;
+        static float rotationThreshold = 30.0f;
         /// <summary>
         /// Returns true if this shape and the one passed in have symmetry equivalent transforms, within a threshold. 
         /// </summary>
@@ -229,5 +229,25 @@ namespace TaskShape
     /// An event used to indicate that an object has been successfully placed in its goal
     /// location. Contents are the item object and the goal object.
     /// </summary>
-    public class GoalEvent : UnityEvent<GameObject, GameObject> { }
+    public class ItemEvent : UnityEvent<GameObject, GameObject> { }
+
+    /// <summary>
+    /// Contains static members for events related to ItemPlacer behavior. This allows other
+    /// components to easily subscribe to every single event statically in their scripts.
+    /// </summary>
+    public class ItemEventSystem
+    {
+        /// <summary>
+        /// Invoked when an item is placed. Contains the item object and its goal object.
+        /// </summary>
+        public static ItemEvent ItemPlaced = new ItemEvent();
+        /// <summary>
+        /// Invoked when an item reaches its goal. Contains the item object and its goal object.
+        /// </summary>
+        public static ItemEvent GoalReached = new ItemEvent();
+        /// <summary>
+        /// Invoked when an item is destroyed. Contains the item object and its goal object.
+        /// </summary>
+        public static ItemEvent ItemDestroyed = new ItemEvent();
+    }
 }

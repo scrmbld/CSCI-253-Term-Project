@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TaskShape;
+using System.Linq;
 
 public class ItemPlacer : MonoBehaviour
 {
@@ -21,8 +22,35 @@ public class ItemPlacer : MonoBehaviour
     private Dictionary<ShapeType, Mesh> ShapeTypeMeshes = new Dictionary<ShapeType, Mesh>();
     private Dictionary<ShapeColor, Color> ShapeColors = new Dictionary<ShapeColor, Color>();
 
+    private HashSet<(ShapeType, ShapeColor)> availableShapes = new HashSet<(ShapeType, ShapeColor)>();
+
+    /// <summary>
+    ///  Get a random (ShapeType, ShapeColor) from the set of available shapes and then remove it from the set.
+    /// </summary>
+    /// <returns>The selected shape type x color tuple.</returns>
+    (ShapeType, ShapeColor) UseRandomShape()
+    {
+        // get a random shape from the set and then remove it from the set
+        int usedIndex = (int)Random.Range(0, availableShapes.Count);
+        (ShapeType, ShapeColor) chosen = availableShapes.ElementAt(usedIndex);
+        availableShapes.Remove(chosen);
+
+        return chosen;
+    }
+
     void Start()
     {
+        // get all shape + color combinations and put them into availableShapes
+        var shapes = System.Enum.GetValues(typeof(ShapeType)).Cast<ShapeType>();
+        var colors = System.Enum.GetValues(typeof(ShapeColor)).Cast<ShapeColor>();
+        foreach (ShapeType s in shapes)
+        {
+            foreach(ShapeColor c in colors)
+            {
+                availableShapes.Add((s, c));
+            }
+        }
+
         // get all the meshes and put them into the Dictionary
         GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Mesh cube = obj.GetComponent<MeshFilter>().mesh;
@@ -45,6 +73,9 @@ public class ItemPlacer : MonoBehaviour
         ShapeColors[ShapeColor.Green] = new Color(0.18f, 0.55f, 0.34f);
         ShapeColors[ShapeColor.Blue] = new Color(0.0f, 0.2f, 0.38f);
         ShapeColors[ShapeColor.Purple] = new Color(0.4f, 0.2f, 0.6f);
+
+        // subscribe to goal reached events
+        ItemEventSystem.ItemDestroyed.AddListener(ItemDestroyed);
     }
 
     // Update is called once per frame
@@ -59,10 +90,7 @@ public class ItemPlacer : MonoBehaviour
     void GenerateItem()
     {
         // randomly select shape type and color
-        var types = System.Enum.GetValues(typeof(ShapeType));
-        ShapeType newShape = (ShapeType)types.GetValue((int)Random.Range(0, types.Length));
-        var colors = System.Enum.GetValues(typeof(ShapeColor));
-        ShapeColor newColor = (ShapeColor)colors.GetValue((int)Random.Range(0, colors.Length));
+        var (newShape, newColor) = UseRandomShape();
 
         // place the item
 
@@ -126,8 +154,10 @@ public class ItemPlacer : MonoBehaviour
         newItem.GetComponent<ManipulationControl>().leftController = leftController;
         newItem.GetComponent<ManipulationControl>().rightController = rightController;
 
-        // subscribe to the item's goalReached event
-        newItem.GetComponent<ItemObject>().goalReached.AddListener(GoalReached);
+        Debug.Log($"Generated {newColor} {newShape}.");
+
+        // invoke the ItemPlaced event
+        ItemEventSystem.ItemPlaced.Invoke(newItem, newGoal);
     }
 
     Vector3 GeneratePosition()
@@ -178,11 +208,9 @@ public class ItemPlacer : MonoBehaviour
     /// </summary>
     /// <param name="item">A reference to the item object.</param>
     /// <param name="goal">A reference to the goal object.</param>
-    void GoalReached(GameObject item, GameObject goal)
+    void ItemDestroyed(GameObject item, GameObject goal)
     {
-        GameObject.Destroy(item);
-        GameObject.Destroy(goal);
-
+        availableShapes.Add((item.GetComponent<ItemObject>().type, item.GetComponent<ItemObject>().color));
         objectCount--;
     }
 }
