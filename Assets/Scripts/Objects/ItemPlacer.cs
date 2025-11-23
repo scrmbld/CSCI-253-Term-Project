@@ -13,7 +13,7 @@ public class ItemPlacer : MonoBehaviour
     public GameObject leftController;
     public GameObject rightController;
 
-    private float minY = 0.0f;
+    private float minY = -0.1f;
     private float maxY = 0.3f;
     private int objectCount = 0;
     private int nextID = 0;
