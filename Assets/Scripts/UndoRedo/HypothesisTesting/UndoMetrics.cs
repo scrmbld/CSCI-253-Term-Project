@@ -3,10 +3,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-
-// TODO : ADD METRIC INCREMENTS FOR UNDO/REDO (both control and experimental)
-// Then check list in ChatGPT for what's next
-
 public class UndoMetrics //: MonoBehaviour
 {
     // Grab/Undo/Redo counts for testing metrics:
