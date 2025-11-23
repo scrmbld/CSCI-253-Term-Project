@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
 
     // Metrics data
     [SerializeField] private string timeElapsed = "0 seconds";
+    [SerializeField] private string scrubTime = "0 seconds";
     [SerializeField] private int grabCount = 0;
     [SerializeField] private int undoCount = 0;
     [SerializeField] private int redoCount = 0;
@@ -24,6 +25,7 @@ public class LevelManager : MonoBehaviour
     private void SyncDebugMetrics()
     {
         timeElapsed = ($"{Math.Round(Time.time - metrics.StartTime())} seconds");
+        scrubTime = ($"{metrics.ReturnScrubTime()} seconds");
         grabCount = metrics.ReturnGrabCount();
         undoCount = metrics.ReturnUndoCount();
         redoCount = metrics.ReturnRedoCount();
@@ -76,7 +78,9 @@ public class LevelManager : MonoBehaviour
             Debug.Log($"Total Object Grabs: {metrics.ReturnGrabCount()}");
             Debug.Log($"Total Undo: {metrics.ReturnUndoCount()}");
             Debug.Log($"Total Redo: {metrics.ReturnRedoCount()}");
+            Debug.Log($"Total scrub time (Experimental Only): {metrics.ReturnScrubTime()}");
             Debug.Log($"Error Correction Rate: {metrics.ReturnErrorCorrectionRate()}");
+            metrics.SaveToCSV(completionTime);
         }
     }
 }

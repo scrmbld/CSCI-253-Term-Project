@@ -5,7 +5,9 @@
     - Only one version of Undo is meant to exist at a time, so if both are in the hierarchy, disable or delete one 
         - UndoManagerControl enables traditional undo: Immediately restoring object's previous state
         - UndoManagerExperimental enables "scrubbing" undo: Move forwards or backwards through object history
-    - Both UndoManagers have been saved as prefabs. If it is missing from the hierarchy, add it from the prefab folder
+    - An UndoManager has been saved as a prefab, containting both the Control and Experimental Manager (disable one) and a metrics tracker script. If it is missing from the hierarchy, add it from the prefab folder
+        - To view live metrics while testing, click on the QuantMetrics object inside UndoManager
+        - These metrics will be recorded in a CSV file at the end of the task
 
 ## For an object to be undone/redone, it must have the following scripts attached:
 - Manipulation Control (Script): Allows the object to be moved/rotated

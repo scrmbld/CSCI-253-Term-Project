@@ -29,13 +29,14 @@ public class UndoManagerExperimental : UndoManager
 
         // Reads keyboard controls to trigger undo/redo (for simulator testing)
         if (Keyboard.current.zKey.isPressed && !Keyboard.current.xKey.isPressed)
-        {    
+        {
             isScrubbing = true;
             Undo();
         }
         if (Keyboard.current.zKey.wasReleasedThisFrame)
         {
             isScrubbing = false;
+            LevelManager.Instance.metrics.SaveScrubTime();
         }
         if (Keyboard.current.xKey.isPressed && !Keyboard.current.zKey.isPressed)
         {
@@ -45,16 +46,20 @@ public class UndoManagerExperimental : UndoManager
         if (Keyboard.current.xKey.wasReleasedThisFrame)
         {
             isScrubbing = false;
+            LevelManager.Instance.metrics.SaveScrubTime();
         }
 
         // Increment metrics count on initial hold
         if (Keyboard.current.zKey.wasPressedThisFrame)
         {
             LevelManager.Instance.metrics.AddUndoCount();
+            LevelManager.Instance.metrics.RecordScrubCount();
+
         }
         if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             LevelManager.Instance.metrics.AddRedoCount();
+            LevelManager.Instance.metrics.RecordScrubCount();
         }
     }
 
@@ -65,6 +70,7 @@ public class UndoManagerExperimental : UndoManager
         if (justPressed)
         {
             LevelManager.Instance.metrics.AddUndoCount();
+            LevelManager.Instance.metrics.RecordScrubCount();
         }
         // Reacts to holding down X
         if (isHeld)
@@ -75,6 +81,7 @@ public class UndoManagerExperimental : UndoManager
         if (wasReleased)
         {
             isScrubbing = false;
+            LevelManager.Instance.metrics.SaveScrubTime();
         }
     }
 
@@ -84,6 +91,7 @@ public class UndoManagerExperimental : UndoManager
         if (justPressed)
         {
             LevelManager.Instance.metrics.AddRedoCount();
+            LevelManager.Instance.metrics.RecordScrubCount();
         }
         // Reacts to holding down Y
         if (isHeld)
@@ -94,6 +102,7 @@ public class UndoManagerExperimental : UndoManager
         if (wasReleased)
         {
             isScrubbing = false;
+            LevelManager.Instance.metrics.SaveScrubTime();
         }
     }
     
@@ -123,6 +132,12 @@ public class UndoManagerExperimental : UndoManager
                 objectHistory.Clear();
                 SaveInitialState(undoableObject);
             }
+            // Clears any future history that exists (ex: Move an object, rewind halfway through, then pick up and move again)
+            else if (currIndex < objectHistory.Count - 1)
+            {
+                objectHistory.RemoveRange(currIndex + 1, objectHistory.Count - 1 - currIndex);
+            }
+
 
             // For metrics/debugging
             LevelManager.Instance.metrics.AddGrab();   

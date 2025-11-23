@@ -1,5 +1,7 @@
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 
 // TODO : ADD METRIC INCREMENTS FOR UNDO/REDO (both control and experimental)
@@ -13,6 +15,10 @@ public class UndoMetrics //: MonoBehaviour
     private int totalGrabCount = 0;
     private float errorCorrectionRate = 0f; // Lower = fewer error corrections, Higher = more error corrections
     private float startTime;
+    private float scrubTime = 0;
+    private float scrubStart;
+
+    private const string fileName = "undo_quantitative_metrics.csv";
 
     // Increment functions
     public void AddGrab()
@@ -30,7 +36,23 @@ public class UndoMetrics //: MonoBehaviour
         totalRedoCount++;
     }
 
+    public void RecordScrubCount()
+    {
+        scrubStart = Time.time;
+        Debug.Log($"Scrub start time; {scrubStart}");
+    }
+    public void SaveScrubTime()
+    {
+        scrubTime += Time.time - scrubStart;
+        Debug.Log($"Scrub end time; {Time.time}");
+        Debug.Log($"Time scrubbing: {scrubTime}");
+    }
+
     // Return funtions
+    public float ReturnScrubTime()
+    {
+        return scrubTime;
+    }
     public int ReturnGrabCount()
     {
         return totalGrabCount;
@@ -58,6 +80,24 @@ public class UndoMetrics //: MonoBehaviour
     public float StartTime()
     {
         return startTime;
+    }
+
+    public void SaveToCSV(float completionTime)
+    {
+        string folder = Application.persistentDataPath;
+        string path = Path.Combine(folder, fileName);
+
+        if (!File.Exists(path))
+        {
+            string header = "Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedo\n";
+            File.WriteAllText(path, header);
+        }
+        string condition = scrubTime > 0 ? "Experimental" : "Control";
+
+        string row = $"{condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
+
+        File.AppendAllText(path, row);
+        Debug.Log($"{fileName} wrote to {path}");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
