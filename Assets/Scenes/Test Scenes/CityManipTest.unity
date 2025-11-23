@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UndoManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5598778602641960928, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -388,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: d4047447923eaaf70bcf597dfb2dbb97, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1591,6 +1595,14 @@ MonoBehaviour:
   holdAmplitude: 0.2
   holdPulseDuration: 0.06
   holdInterval: 0.12
+  releaseAmplitude: 0.6
+  releaseDuration: 0.08
+  useXRNodeFallback: 1
+  recacheTimeoutSeconds: 2
+  resendAttempts: 3
+  resendDelay: 0.35
+  interactorRefs: []
+  controllerRefs: []
 --- !u!1 &1880635962
 GameObject:
   m_ObjectHideFlags: 0
