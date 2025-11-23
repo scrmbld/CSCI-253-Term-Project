@@ -30,17 +30,19 @@ TagManager:
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
   - GazeTarget
+  - BagIcon
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - MiniIcon
+  - Overlay UI
   - Water
   - UI
   - Road
   - building
-  - 
-  - 
+  - Map Marker
+  - BagUiI
   - 
   - 
   - 
