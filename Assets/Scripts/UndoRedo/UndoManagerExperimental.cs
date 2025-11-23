@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
@@ -11,7 +12,7 @@ public class UndoManagerExperimental : UndoManager
     private UndoableObject grabbedObject = null;
 
     private bool objectIsBeingGrabbed = false;
-    private bool isRestoring = false;
+    [SerializeField] private bool isScrubbing = false;
 
     protected override void Awake()
     {
@@ -21,46 +22,78 @@ public class UndoManagerExperimental : UndoManager
     // Update is called once per frame
     void Update()
     {
-        if (objectIsBeingGrabbed && !isRestoring)
+        if (objectIsBeingGrabbed)
         {
             SaveState(grabbedObject);
         }
 
         // Reads keyboard controls to trigger undo/redo (for simulator testing)
         if (Keyboard.current.zKey.isPressed && !Keyboard.current.xKey.isPressed)
-        {
+        {    
+            isScrubbing = true;
             Undo();
         }
         if (Keyboard.current.zKey.wasReleasedThisFrame)
         {
-            isRestoring = false;
+            isScrubbing = false;
         }
         if (Keyboard.current.xKey.isPressed && !Keyboard.current.zKey.isPressed)
         {
+            isScrubbing = true;
             Redo();
         }
         if (Keyboard.current.xKey.wasReleasedThisFrame)
         {
-            isRestoring = false;
+            isScrubbing = false;
+        }
+
+        // Increment metrics count on initial hold
+        if (Keyboard.current.zKey.wasPressedThisFrame)
+        {
+            LevelManager.Instance.metrics.AddUndoCount();
+        }
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            LevelManager.Instance.metrics.AddRedoCount();
         }
     }
 
     // Reads Meta Controller input to trigger undo/redo
-    public override void OnUndoInput(bool isHeld, bool justPressed)
+    public override void OnUndoInput(bool isHeld, bool justPressed, bool wasReleased)
     {
-        // Reacts to holding down X
-        if (!isHeld)
+        // Increment metrics count on initial hold
+        if (justPressed)
         {
+            LevelManager.Instance.metrics.AddUndoCount();
+        }
+        // Reacts to holding down X
+        if (isHeld)
+        {
+            isScrubbing = true;
             Undo();
+        }
+        if (wasReleased)
+        {
+            isScrubbing = false;
         }
     }
 
-    public override void OnRedoInput(bool isHeld, bool justPressed)
+    public override void OnRedoInput(bool isHeld, bool justPressed, bool wasReleased)
     {
-        // Reacts to holding down Y
-        if (!isHeld)
+        // Increment metrics count on initial hold
+        if (justPressed)
         {
+            LevelManager.Instance.metrics.AddRedoCount();
+        }
+        // Reacts to holding down Y
+        if (isHeld)
+        {
+            isScrubbing = true;
             Redo();
+        }
+        if (wasReleased)
+        {
+            isScrubbing = false;
         }
     }
     
@@ -90,6 +123,9 @@ public class UndoManagerExperimental : UndoManager
                 objectHistory.Clear();
                 SaveInitialState(undoableObject);
             }
+
+            // For metrics/debugging
+            LevelManager.Instance.metrics.AddGrab();   
         }
     }
     private void OnObjectRelease(GameObject grabbedObject, string hand)
@@ -105,7 +141,7 @@ public class UndoManagerExperimental : UndoManager
             Debug.Log($"Nothing to undo.");
             return; 
         }
-        isRestoring = true;
+        //isRestoring = true;
 
         // Iterate backwards through the Object History
         ObjectState savedState = objectHistory[--currIndex];
@@ -119,6 +155,7 @@ public class UndoManagerExperimental : UndoManager
             Debug.Log($"Nothing to redo.");
             return; 
         }
+        //isRestoring = true;
         
         // Iterate forwards through the object history list
         ObjectState savedState = objectHistory[++currIndex];

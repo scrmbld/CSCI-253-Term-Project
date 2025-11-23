@@ -17,7 +17,7 @@ public abstract class UndoManager : MonoBehaviour
         Debug.Log($"{name} initialized.");
     }
 
-    // Control.cs will call these every frame with button info
-    public abstract void OnUndoInput(bool isHeld, bool justPressed);
-    public abstract void OnRedoInput(bool isHeld, bool justPressed);
+    // ButtonManager.cs will call these every frame with button info
+    public abstract void OnUndoInput(bool isHeld, bool justPressed, bool wasReleased);
+    public abstract void OnRedoInput(bool isHeld, bool justPressed, bool wasReleased);
 }

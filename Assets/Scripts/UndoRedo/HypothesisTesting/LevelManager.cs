@@ -1,24 +1,63 @@
+using System;
+using System.Threading.Tasks.Sources;
+using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
+
     public Target[] targets;
-    private float startTime;
+    
     private bool levelStarted = false;
     private bool levelCompleted = false;
+
+    public UndoMetrics metrics = new UndoMetrics();
+
+    // Metrics data
+    [SerializeField] private string timeElapsed = "0 seconds";
+    [SerializeField] private int grabCount = 0;
+    [SerializeField] private int undoCount = 0;
+    [SerializeField] private int redoCount = 0;
+    [SerializeField] private float errorCorrectionRate = 0.0f;
+
+    private void SyncDebugMetrics()
+    {
+        timeElapsed = ($"{Math.Round(Time.time - metrics.StartTime())} seconds");
+        grabCount = metrics.ReturnGrabCount();
+        undoCount = metrics.ReturnUndoCount();
+        redoCount = metrics.ReturnRedoCount();
+        errorCorrectionRate = 1f * metrics.ReturnErrorCorrectionRate();
+    }
+    
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.Log($"More than one LevelManager exists in the scene. Destroying {name}, keeping {Instance.name}");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        Debug.Log($"{name} initialized.");
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        startTime = Time.time;
         levelStarted = true;   
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!levelCompleted)
+        {
+            SyncDebugMetrics();     
+        }
         if (!levelStarted || levelCompleted) { return; }
         bool taskComplete = true;
+        taskComplete = false; // for testing, delete when task conditions are added
 
         foreach (Target t in targets)
         {
@@ -32,11 +71,12 @@ public class LevelManager : MonoBehaviour
         if (taskComplete)
         {
             levelCompleted = true;
-            float completionTime = Time.time - startTime;
+            float completionTime = Time.time - metrics.StartTime();
             Debug.Log($"LEVEL COMPLETE IN {completionTime:F2} seconds");
-            // Debug.Log($"Total Undo: {UndoManager.Instance.TotalUndoCount}, Total Redo: {UndoManager.Instance.TotalRedoCount}");
-            // Consider logging total object manipulation count and possibly a comparison of undo/redo vs object manipulation count
+            Debug.Log($"Total Object Grabs: {metrics.ReturnGrabCount()}");
+            Debug.Log($"Total Undo: {metrics.ReturnUndoCount()}");
+            Debug.Log($"Total Redo: {metrics.ReturnRedoCount()}");
+            Debug.Log($"Error Correction Rate: {metrics.ReturnErrorCorrectionRate()}");
         }
-        
     }
 }

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
 public class UndoManagerControl : UndoManager
@@ -20,6 +23,11 @@ public class UndoManagerControl : UndoManager
         debugRedoStack = new List<ObjectState>(redoStack);
         Debug.Log($"undoStack size: {undoStack.Count}, redoStack size: {redoStack.Count}");
     }
+
+    // // Grab/Undo/Redo counts for testing metrics:
+    // public int TotalUndoCount { get; private set; }
+    // public int TotalRedoCount { get; private set; }
+    // public int TotalGrabCount { get; private set; }
 
     // Awake is called at start
     protected override void Awake()
@@ -42,7 +50,7 @@ public class UndoManagerControl : UndoManager
         }
     }
     // Reads Meta Controller input to trigger undo/redo
-    public override void OnUndoInput(bool isHeld, bool justPressed)
+    public override void OnUndoInput(bool isHeld, bool justPressed, bool wasReleased)
     {
         // Only react to a single press
         if (justPressed)
@@ -50,7 +58,7 @@ public class UndoManagerControl : UndoManager
             Undo();
         }
     }
-    public override void OnRedoInput(bool isHeld, bool justPressed)
+    public override void OnRedoInput(bool isHeld, bool justPressed, bool wasReleased)
     {
         if (justPressed)
         {
@@ -76,6 +84,9 @@ public class UndoManagerControl : UndoManager
         if (undoableObject != null)
         {
             SaveState(undoableObject);
+
+            // For metrics/testing
+            LevelManager.Instance.metrics.AddGrab();
         }
     }
 
@@ -101,9 +112,10 @@ public class UndoManagerControl : UndoManager
 
         isRestoring = false;
 
-        // For testing
+        // For metrics/testing
         LogState($"{undoState.targetObject?.name} state reverted back to:", undoState);
         SyncDebugStacks();
+        LevelManager.Instance.metrics.AddUndoCount();
     }
 
     public void Redo()
@@ -128,10 +140,10 @@ public class UndoManagerControl : UndoManager
 
         isRestoring = false;
 
-        // For testing
+        // For metrics/testing
         LogState($"{redoState.targetObject.name} state redone to:", redoState);
         SyncDebugStacks();
-
+        LevelManager.Instance.metrics.AddRedoCount();
     }
 
     public void SaveState(UndoableObject gameObject)
