@@ -119,3 +119,4 @@ public class ManipulationControl : MonoBehaviour
     // private void OnAnyGrab(GameObject obj, string hand) { /* ... */ }
     // private void OnAnyRelease(GameObject obj, string hand) { /* ... */ }
 }
+

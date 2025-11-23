@@ -30,13 +30,18 @@ TagManager:
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
   - GazeTarget
+  - BagIcon
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - MiniIcon
+  - Overlay UI
   - Water
   - UI
+  - Road
+  - building
+  - Map Marker
+  - BagUiI
   - 
   - 
   - 
@@ -58,10 +63,6 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - XR Simulation
   - 
   m_SortingLayers:
   - name: Default
