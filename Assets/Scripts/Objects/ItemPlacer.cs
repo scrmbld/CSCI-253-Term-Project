@@ -10,7 +10,6 @@ public class ItemPlacer : MonoBehaviour
     public float maxX;
     public float minZ;
     public float maxZ;
-    public Transform CameraOffset;
     public GameObject leftController;
     public GameObject rightController;
 
