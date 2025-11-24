@@ -5,8 +5,8 @@ public class ManipulationExperimentA : MonoBehaviour
 {
 
     public float grabRadius;
-    public Transform leftController;
-    public Transform rightController;
+    public GameObject leftController;
+    public GameObject rightController;
 
     private ProjectInputActions controls;
 
@@ -25,7 +25,7 @@ public class ManipulationExperimentA : MonoBehaviour
 
     void Start()
     {
-        previousRightPos = rightController.position;
+        previousRightPos = rightController.transform.position;
     }
 
     void OnEnable()
@@ -75,7 +75,7 @@ public class ManipulationExperimentA : MonoBehaviour
     {
         if (grabbedLeft)
         {
-            transform.rotation = leftController.rotation * rotOffset;
+            transform.rotation = leftController.transform.rotation * rotOffset;
         }
     }
 
@@ -87,10 +87,10 @@ public class ManipulationExperimentA : MonoBehaviour
     {
         if (grabbedRight)
         {
-            Vector3 displacement = rightController.position - previousRightPos;
+            Vector3 displacement = rightController.transform.position - previousRightPos;
             transform.position += displacement;
         }
-        previousRightPos = rightController.position;
+        previousRightPos = rightController.transform.position;
     }
 
     /// <summary>
@@ -99,12 +99,13 @@ public class ManipulationExperimentA : MonoBehaviour
     /// <param name="ctx"></param>
     private void LeftGripStarted(InputAction.CallbackContext ctx)
     {
-        float delta = (transform.position - leftController.position).magnitude;
+        float delta = (transform.position - leftController.transform.position).magnitude;
         if (delta < grabRadius)
         {
             Debug.Log($"Grabbed {name} (left hand, rotation)"); // create an event
-            rotOffset = transform.rotation * Quaternion.Inverse(leftController.rotation);
+            rotOffset = transform.rotation * Quaternion.Inverse(leftController.transform.rotation);
             grabbedLeft = true;
+            GrabEventSystem.TriggerGrab(gameObject, "Left");
         }
     }
     /// <summary>
@@ -118,6 +119,7 @@ public class ManipulationExperimentA : MonoBehaviour
             Debug.Log($"Released {name} (left hand, rotation)");
             grabbedLeft = false;
         }
+            GrabEventSystem.TriggerRelease(gameObject, "Left");
     }
     /// <summary>
     /// Right grip button pressed callback. Checks for grab.
@@ -125,11 +127,12 @@ public class ManipulationExperimentA : MonoBehaviour
     /// <param name="ctx"></param>
     private void RightGripStarted(InputAction.CallbackContext ctx)
     {
-        float delta = (transform.position - rightController.position).magnitude;
+        float delta = (transform.position - rightController.transform.position).magnitude;
         if (delta < grabRadius)
         {
             Debug.Log($"Grabbed {name} (right hand, translation)");
             grabbedRight = true;
+            GrabEventSystem.TriggerGrab(gameObject, "Right");
         }
     }
     /// <summary>
@@ -142,6 +145,7 @@ public class ManipulationExperimentA : MonoBehaviour
         {
             Debug.Log($"Released {name} (right hand, translation)");
             grabbedRight = false;
+            GrabEventSystem.TriggerRelease(gameObject, "Right");
         }
     }
 }
