@@ -993,10 +993,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UndoManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6623700309063119930, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1196,13 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600b3cdfcca00417ea121e153e0da596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets: []
-  timeElapsed: 0 seconds
-  scrubTime: 0 seconds
-  grabCount: 0
-  undoCount: 0
-  redoCount: 0
-  errorCorrectionRate: 0
 --- !u!4 &1683783743
 Transform:
   m_ObjectHideFlags: 0

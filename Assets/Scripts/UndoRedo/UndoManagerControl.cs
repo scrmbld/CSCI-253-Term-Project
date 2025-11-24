@@ -86,7 +86,7 @@ public class UndoManagerControl : UndoManager
             SaveState(undoableObject);
 
             // For metrics/testing
-            LevelManager.Instance.metrics.AddGrab();
+            UndoTestManager.Instance.metrics.AddGrab();
         }
     }
 
@@ -115,7 +115,7 @@ public class UndoManagerControl : UndoManager
         // For metrics/testing
         LogState($"{undoState.targetObject?.name} state reverted back to:", undoState);
         SyncDebugStacks();
-        LevelManager.Instance.metrics.AddUndoCount();
+        UndoTestManager.Instance.metrics.AddUndoCount();
     }
 
     public void Redo()
@@ -143,7 +143,7 @@ public class UndoManagerControl : UndoManager
         // For metrics/testing
         LogState($"{redoState.targetObject.name} state redone to:", redoState);
         SyncDebugStacks();
-        LevelManager.Instance.metrics.AddRedoCount();
+        UndoTestManager.Instance.metrics.AddRedoCount();
     }
 
     public void SaveState(UndoableObject gameObject)

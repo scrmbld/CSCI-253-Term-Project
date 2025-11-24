@@ -3,9 +3,11 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class UndoMetrics //: MonoBehaviour
+public class UndoMetrics 
 {
-    // Grab/Undo/Redo counts for testing metrics:
+    private const string fileName = "undo_quantitative_metrics.csv";
+
+    // Quantitative metrics
     public int totalUndoCount = 0;
     private int totalRedoCount = 0;
     private int totalGrabCount = 0;
@@ -14,24 +16,19 @@ public class UndoMetrics //: MonoBehaviour
     private float scrubTime = 0;
     private float scrubStart;
 
-    private const string fileName = "undo_quantitative_metrics.csv";
-
-    // Increment functions
+    // Increment/update functions
     public void AddGrab()
     {   
         totalGrabCount++;
     }
-
     public void AddUndoCount()
     {
         totalUndoCount++;
     }
-
     public void AddRedoCount()
     {
         totalRedoCount++;
     }
-
     public void RecordScrubCount()
     {
         scrubStart = Time.time;
@@ -100,11 +97,5 @@ public class UndoMetrics //: MonoBehaviour
     void Start()
     {
         startTime = Time.time;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
