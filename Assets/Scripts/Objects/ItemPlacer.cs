@@ -25,6 +25,9 @@ public class ItemPlacer : MonoBehaviour
     public ShapeType hardcodedShape;
     public ShapeColor hardcodedColor;
 
+    [Header("Manipulation Type")]
+    public bool useExperimentalManip = false;
+
     [Header("Player Information")]
     public GameObject leftController;
     public GameObject rightController;
@@ -189,10 +192,20 @@ public class ItemPlacer : MonoBehaviour
                     newItem.GetComponent<ItemObject>().goalObject = newGoal;
 
                     // add the manipulation component to the item obejct
-                    newItem.AddComponent<ManipulationControl>();
-                    newItem.GetComponent<ManipulationControl>().grabRadius = 1.0f;
-                    newItem.GetComponent<ManipulationControl>().leftController = leftController;
-                    newItem.GetComponent<ManipulationControl>().rightController = rightController;
+                    if (useExperimentalManip)
+                    {
+                        newItem.AddComponent<ManipulationExperimentA>();
+                        newItem.GetComponent<ManipulationExperimentA>().grabRadius = 1.0f;
+                        newItem.GetComponent<ManipulationExperimentA>().leftController = leftController;
+                        newItem.GetComponent<ManipulationExperimentA>().rightController = rightController;
+
+                    } else
+                    {
+                        newItem.AddComponent<ManipulationControl>();
+                        newItem.GetComponent<ManipulationControl>().grabRadius = 1.0f;
+                        newItem.GetComponent<ManipulationControl>().leftController = leftController;
+                        newItem.GetComponent<ManipulationControl>().rightController = rightController;
+                    }
 
                     Debug.Log($"Generated {newColor} {newShape} at {itemPos} with goal at {goalPos}.");
 
