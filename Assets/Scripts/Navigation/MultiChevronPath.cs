@@ -11,58 +11,64 @@ public class MultiChevronPath : MonoBehaviour
         public int arrowCount = 5;
         public float spacing = 1f;
 
-        [HideInInspector]
-        public GameObject container;
+        [HideInInspector] 
+        public List<Transform> arrows = new List<Transform>();
     }
 
     public GameObject chevronPrefab;
     public List<ObjectPair> objectPairs = new List<ObjectPair>();
 
-    void Update()
+    void Start()
     {
-        UpdateAllPairs();
+        InitializePairs();
     }
 
-    void UpdateAllPairs()
+    void Update()
+    {
+        UpdatePairs();
+    }
+
+    void InitializePairs()
     {
         foreach (var pair in objectPairs)
         {
-            if (pair.startPoint == null || pair.endPoint == null || chevronPrefab == null)
-                continue;
-
-            // Create container for this pair if missing
-            if (pair.container == null)
+            // Delete old arrows
+            foreach (var oldArrow in pair.arrows)
             {
-                pair.container = new GameObject("ChevronPath_" + pair.startPoint.name);
-                pair.container.transform.parent = pair.startpoint;
-
-                // Spawn arrows initially
-                for (int i = 0; i < pair.arrowCount; i++)
-                {
-                    GameObject arrow = Instantiate(chevronPrefab, pair.container.transform);
-                }
+                if (oldArrow != null)
+                    Destroy(oldArrow.gameObject);
             }
 
-            UpdatePair(pair);
+            pair.arrows.Clear();
+
+            // Spawn new arrows
+            for (int i = 0; i < pair.arrowCount; i++)
+            {
+                GameObject arrowObj = Instantiate(chevronPrefab);
+                arrowObj.transform.SetParent(transform); // keep hierarchy clean
+                pair.arrows.Add(arrowObj.transform);
+            }
         }
     }
 
-    void UpdatePair(ObjectPair pair)
+    void UpdatePairs()
     {
-        int childCount = pair.container.transform.childCount;
-        Vector3 dir = (pair.endPoint.position - pair.startPoint.position).normalized;
-
-        for (int i = 0; i < childCount; i++)
+        foreach (var pair in objectPairs)
         {
-            Transform arrow = pair.container.transform.GetChild(i);
+            if (pair.startPoint == null || pair.endPoint == null)
+                continue;
 
-            float distance = pair.spacing * (i + 1);
-            Vector3 pos = pair.startPoint.position + dir * distance;
+            Vector3 dir = (pair.endPoint.position - pair.startPoint.position).normalized;
 
-            arrow.position = pos;
+            for (int i = 0; i < pair.arrows.Count; i++)
+            {
+                float dist = i * pair.spacing;
+                Vector3 pos = pair.startPoint.position + dir * dist;
 
-            // Rotate arrow to face the target
-            arrow.rotation = Quaternion.LookRotation(dir);
+                Transform arrow = pair.arrows[i];
+                arrow.position = pos;
+                arrow.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(0, 180, 0);
+            }
         }
     }
 }
