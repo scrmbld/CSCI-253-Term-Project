@@ -3125,33 +3125,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2862514496337663372, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
   m_PrefabInstance: {fileID: 1860224634}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &201114907
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201114903}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!64 &201114908
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7226,7 +7199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2afbbb8d8a91b2d41ba7220a91df3ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1591592345}
 --- !u!136 &544791349
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8547,11 +8519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add40a87030b1aa468c2a1be4936cdb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapCanvas: {fileID: 1019969287}
-  head: {fileID: 1591592345}
-  showDistance: 1
-  bPressed: 0
-  isVisible: 0
 --- !u!4 &615319985
 Transform:
   m_ObjectHideFlags: 0
@@ -9940,12 +9907,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c0b1ef188881546a5c6f4505a74026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 718914327}
-  inputSource: 4
-  moveSpeed: 5
-  gravity: -9.81
-  controller: {fileID: 0}
-  fallingSpeed: {x: 0, y: 0, z: 0}
 --- !u!1 &719303227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6917048558944228857, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
@@ -18085,25 +18046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365e46c7b0a0f3e46b05e1c8c90bef1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eyeBridge: {fileID: 419397374}
-  gazeMaxDistance: 5
-  bagLayer:
-    m_Bits: 512
-  bagIconRoot: {fileID: 90517663}
-  bagPanelRoot: {fileID: 603013720}
-  panelLocalOffset: {x: 0, y: 0, z: 1.2}
-  bagIconRenderer: {fileID: 0}
-  normalColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  hoverColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  isLookingAtIcon: 0
 --- !u!4 &1335436636
 Transform:
   m_ObjectHideFlags: 0
@@ -19895,11 +19837,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953ce773da25f374b825fbfddb075bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataDir: C:\ExperimentData\Map
-  leftController: {fileID: 339896031}
-  rightController: {fileID: 1197674157}
-  head: {fileID: 1591592345}
-  bHeld: 0
 --- !u!4 &1476725595
 Transform:
   m_ObjectHideFlags: 0
@@ -27386,9 +27323,6 @@ PrefabInstance:
       addedObject: {fileID: 1168112291}
     - targetCorrespondingSourceObject: {fileID: 2862514496337663372, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 201114907}
-    - targetCorrespondingSourceObject: {fileID: 2862514496337663372, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 201114908}
     - targetCorrespondingSourceObject: {fileID: 6303654506820893661, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
       insertIndex: -1
@@ -28606,7 +28540,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1eaedf211685e746a2d38a98cde194a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 1591592345}
 --- !u!1 &1884671146 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2625848915500030926, guid: 1dfde1da857030f8fb1b860522d9891b, type: 3}
