@@ -549,7 +549,7 @@ Transform:
   m_GameObject: {fileID: 162181896}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.12, y: 1.24, z: 1.78}
+  m_LocalPosition: {x: 1.12, y: 1.24, z: 12.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -706,7 +706,7 @@ Transform:
   m_GameObject: {fileID: 227828595}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27, y: 1.5, z: 1.94}
+  m_LocalPosition: {x: 1.74, y: 1.89, z: 1.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1150,7 +1150,7 @@ Transform:
   m_GameObject: {fileID: 1051153333}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26, y: 1.4, z: 3.94}
+  m_LocalPosition: {x: -9.16, y: 1.3, z: 5.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2117,7 +2117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1888976936}
   m_Layer: 0
-  m_Name: Sphere Checkpoint 4
+  m_Name: Sphere Checkpoint 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2132,7 +2132,7 @@ Transform:
   m_GameObject: {fileID: 1888976935}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27, y: 1.5, z: 1.94}
+  m_LocalPosition: {x: 1.74, y: 1.89, z: 1.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
