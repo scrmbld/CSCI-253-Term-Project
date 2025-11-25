@@ -1032,18 +1032,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8853319d558c7054c90d8d1645ace415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chevronPrefab: {fileID: 722986646109987249, guid: 5dee74619a16b5c44846ddf9509b2fdb, type: 3}
-  objectPairs:
+  pairs:
   - startPoint: {fileID: 58768319}
     endPoint: {fileID: 589982440}
     arrowCount: 3
-    spacing: 1
-    container: {fileID: 0}
-  - startPoint: {fileID: 1528333693}
-    endPoint: {fileID: 226279387}
-    arrowCount: 3
-    spacing: 1
-    container: {fileID: 0}
+    spacing: 0.5
+    arrowPrefab: {fileID: 722986646109987249, guid: 5dee74619a16b5c44846ddf9509b2fdb, type: 3}
+    spawnedArrows: []
 --- !u!4 &972960848
 Transform:
   m_ObjectHideFlags: 0

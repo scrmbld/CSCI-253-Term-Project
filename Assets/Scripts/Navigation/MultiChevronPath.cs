@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class MultiChevronPath : MonoBehaviour
+public class DynamicChevronPath : MonoBehaviour
 {
     [System.Serializable]
     public class ObjectPair
@@ -9,65 +9,53 @@ public class MultiChevronPath : MonoBehaviour
         public Transform startPoint;
         public Transform endPoint;
         public int arrowCount = 5;
-        public float spacing = 1f;
+        public float spacing = 0.5f;
+        public GameObject arrowPrefab;
 
-        [HideInInspector] 
-        public List<Transform> arrows = new List<Transform>();
+        [HideInInspector] public List<Transform> spawnedArrows = new List<Transform>();
     }
 
-    public GameObject chevronPrefab;
-    public List<ObjectPair> objectPairs = new List<ObjectPair>();
+    public List<ObjectPair> pairs = new List<ObjectPair>();
 
     void Start()
     {
-        InitializePairs();
-    }
-
-    void Update()
-    {
-        UpdatePairs();
-    }
-
-    void InitializePairs()
-    {
-        foreach (var pair in objectPairs)
+        foreach (var p in pairs)
         {
-            // Delete old arrows
-            foreach (var oldArrow in pair.arrows)
-            {
-                if (oldArrow != null)
-                    Destroy(oldArrow.gameObject);
-            }
+            // Clear old arrows
+            foreach (var a in p.spawnedArrows)
+                Destroy(a.gameObject);
 
-            pair.arrows.Clear();
+            p.spawnedArrows.Clear();
 
-            // Spawn new arrows
-            for (int i = 0; i < pair.arrowCount; i++)
+            // Spawn fresh arrows
+            for (int i = 0; i < p.arrowCount; i++)
             {
-                GameObject arrowObj = Instantiate(chevronPrefab);
-                arrowObj.transform.SetParent(transform); // keep hierarchy clean
-                pair.arrows.Add(arrowObj.transform);
+                GameObject newArrow = Instantiate(p.arrowPrefab);
+                p.spawnedArrows.Add(newArrow.transform);
             }
         }
     }
 
-    void UpdatePairs()
+    void Update()
     {
-        foreach (var pair in objectPairs)
+        foreach (var p in pairs)
         {
-            if (pair.startPoint == null || pair.endPoint == null)
+            if (p.startPoint == null || p.endPoint == null)
                 continue;
 
-            Vector3 dir = (pair.endPoint.position - pair.startPoint.position).normalized;
+            Vector3 direction = (p.endPoint.position - p.startPoint.position).normalized;
+            float fullDistance = Vector3.Distance(p.startPoint.position, p.endPoint.position);
 
-            for (int i = 0; i < pair.arrows.Count; i++)
+            // AUTO-CONTRACT / EXPAND
+            float dynamicSpacing = fullDistance / (p.arrowCount + 1);
+
+            for (int i = 0; i < p.spawnedArrows.Count; i++)
             {
-                float dist = i * pair.spacing;
-                Vector3 pos = pair.startPoint.position + dir * dist;
+                float dist = dynamicSpacing * (i + 1);
+                Vector3 pos = p.startPoint.position + direction * dist;
 
-                Transform arrow = pair.arrows[i];
-                arrow.position = pos;
-                arrow.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(0, 180, 0);
+                p.spawnedArrows[i].position = pos;
+                p.spawnedArrows[i].rotation = Quaternion.LookRotation(direction);
             }
         }
     }
