@@ -70,10 +70,12 @@ public class UndoManagerControl : UndoManager
     private void OnEnable()
     {
         GrabEventSystem.OnGrab.AddListener(OnObjectGrab);
+        GrabEventSystem.OnRelease.AddListener(OnObjectRelease);
     }
     private void OnDisable()
     {
         GrabEventSystem.OnGrab.RemoveListener(OnObjectGrab);
+        GrabEventSystem.OnRelease.RemoveListener(OnObjectRelease);
     }
 
     // Grab Events for object grab
@@ -88,6 +90,11 @@ public class UndoManagerControl : UndoManager
             // For metrics/testing
             UndoTestManager.Instance.metrics.AddGrab();
         }
+    }
+
+    private void OnObjectRelease(GameObject grabbedObject, string hand)
+    {
+        UndoTestManager.Instance.AllowGoalCheck();
     }
 
     // Undo and Redo functions
@@ -109,6 +116,9 @@ public class UndoManagerControl : UndoManager
 
         // Restore the undo state
         undoState.RestoreState();
+
+        // Check if the object was placed in the goal
+        UndoTestManager.Instance.AllowGoalCheck();
 
         isRestoring = false;
 
@@ -137,6 +147,9 @@ public class UndoManagerControl : UndoManager
 
         // Restore the previous state
         redoState.RestoreState();
+
+        // Check if the object was placed in the goal
+        UndoTestManager.Instance.AllowGoalCheck();
 
         isRestoring = false;
 

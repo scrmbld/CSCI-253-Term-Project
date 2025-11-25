@@ -77,17 +77,17 @@ public class UndoMetrics
 
     public void SaveToCSV(float completionTime)
     {
-        string folder = Application.persistentDataPath;
+        string folder = Application.dataPath;
         string path = Path.Combine(folder, fileName);
 
         if (!File.Exists(path))
         {
-            string header = "Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedo\n";
+            string header = "TaskNumber,Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedo\n";
             File.WriteAllText(path, header);
         }
         string condition = scrubTime > 0 ? "Experimental" : "Control";
 
-        string row = $"{condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
+        string row = $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name},{condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
 
         File.AppendAllText(path, row);
         Debug.Log($"{fileName} wrote to {path}");

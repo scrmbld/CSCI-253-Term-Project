@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using TaskShape;
+using Oculus.Platform;
+using Oculus.Interaction.PoseDetection;
 
 [Serializable]
 public class CheckpointSequence
@@ -12,8 +14,10 @@ public class CheckpointSequence
     [Header("Checkpoints in order")]
     public Transform[] checkpoints; // Each transform is the new checkpoint spot the checkpoint will move to
 
-    [HideInInspector] public int currIndex = 0;
+    public int currIndex = 0; // Current checkpoint in the sequence
     [HideInInspector] public bool isComplete = false;
+
+    public Material completeMaterial; // Assign this in the inspector
 
     public void MoveGoalToCurrentCheckpoint()
     {
@@ -21,8 +25,49 @@ public class CheckpointSequence
         {
             return;
         }
+
         currIndex = Mathf.Clamp(currIndex, 0, checkpoints.Length - 1);
+
+        // Move the goal transform to current checkpoint
         Transform checkpoint = checkpoints[currIndex];
-        goal.transform.SetPositionAndRotation(checkpoint.position, checkpoint.rotation);
+
+        // Sets the initial position without movement animation
+        if (currIndex == 0) 
+        { 
+            goal.transform.SetPositionAndRotation(checkpoint.position, checkpoint.rotation);
+        }
+        else
+        {
+            // If the goal has a MovingGoal script, animate to the checkpoint
+            CheckpointTravel mover = goal.GetComponent<CheckpointTravel>();
+            if (mover != null)
+            {
+                mover.MoveTo(checkpoint);
+            }
+            else
+            {
+                // Fallback: instant teleport
+                goal.transform.SetPositionAndRotation(checkpoint.position, checkpoint.rotation);
+            }
+        }
+        
+
+    }
+
+    public void Complete()
+    {
+        isComplete = true;
+        MarkGoalComplete(goal);
+       
+    }
+
+    private void MarkGoalComplete(GameObject goalObject)
+    {
+        MeshRenderer renderer = goalObject.GetComponentInChildren<MeshRenderer>();
+
+        if (renderer != null)
+        {
+            renderer.material = completeMaterial;
+        }
     }
 }

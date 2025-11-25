@@ -37,6 +37,8 @@ public class UndoManagerExperimental : UndoManager
         {
             isScrubbing = false;
             UndoTestManager.Instance.metrics.SaveScrubTime();
+            // Check if the object was placed in the goal
+            UndoTestManager.Instance.AllowGoalCheck();
         }
         if (Keyboard.current.xKey.isPressed && !Keyboard.current.zKey.isPressed)
         {
@@ -47,6 +49,8 @@ public class UndoManagerExperimental : UndoManager
         {
             isScrubbing = false;
             UndoTestManager.Instance.metrics.SaveScrubTime();
+            // Check if the object was placed in the goal
+            UndoTestManager.Instance.AllowGoalCheck();
         }
 
         // Increment metrics count on initial hold
@@ -82,6 +86,9 @@ public class UndoManagerExperimental : UndoManager
         {
             isScrubbing = false;
             UndoTestManager.Instance.metrics.SaveScrubTime();
+            
+            // Check if the object was placed in the goal
+            UndoTestManager.Instance.AllowGoalCheck();
         }
     }
 
@@ -103,6 +110,9 @@ public class UndoManagerExperimental : UndoManager
         {
             isScrubbing = false;
             UndoTestManager.Instance.metrics.SaveScrubTime();
+            
+            // Check if the object was placed in the goal
+            UndoTestManager.Instance.AllowGoalCheck();
         }
     }
     
@@ -146,6 +156,7 @@ public class UndoManagerExperimental : UndoManager
     private void OnObjectRelease(GameObject grabbedObject, string hand)
     {
         objectIsBeingGrabbed = false;
+        UndoTestManager.Instance.AllowGoalCheck();
     }
 
     // Undo and Redo functions
