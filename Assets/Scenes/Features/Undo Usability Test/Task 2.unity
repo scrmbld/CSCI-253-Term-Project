@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: fc8e2545b3a744bdb9f5c6ad141df18a, type: 2}
     - target: {fileID: 2250770679327251720, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: checkpointSequences.Array.data[0].checkpoints.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2250770679327251720, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: 'checkpointSequences.Array.data[0].checkpoints.Array.data[0]'
@@ -214,7 +214,7 @@ PrefabInstance:
     - target: {fileID: 2250770679327251720, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: 'checkpointSequences.Array.data[0].checkpoints.Array.data[6]'
       value: 
-      objectReference: {fileID: 1565757994}
+      objectReference: {fileID: 2072592166}
     - target: {fileID: 2250770679327251720, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: 'checkpointSequences.Array.data[0].checkpoints.Array.data[7]'
       value: 
@@ -1175,7 +1175,6 @@ Transform:
   - {fileID: 1888976936}
   - {fileID: 1051153334}
   - {fileID: 558724221}
-  - {fileID: 1565757994}
   - {fileID: 2005983406}
   m_Father: {fileID: 909824802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1587,37 +1586,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5333591921867089381, guid: c3150627760f648cabfbc1eafd2dbe9f, type: 3}
   m_PrefabInstance: {fileID: 1527249529}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1565757993
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1565757994}
-  m_Layer: 0
-  m_Name: Sphere Checkpoint 2 (again 2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1565757994
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565757993}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 1.35, z: 2.05}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1046612194}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591592341 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1767192433, guid: 53c9f7aa6447c95c1925217d953e9d46, type: 3}
@@ -2296,7 +2264,7 @@ Transform:
   m_GameObject: {fileID: 2005983405}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.21, y: 1.25, z: 9.03}
+  m_LocalPosition: {x: -0.21, y: 1.25, z: 4.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2314,10 +2282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424e4e09db4ef4d709fd0f6b75ef4212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
-  speed: 1
-  pingPong: 1
 --- !u!1 &2072592165
 GameObject:
   m_ObjectHideFlags: 0
