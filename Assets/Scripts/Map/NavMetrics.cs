@@ -17,8 +17,10 @@ public class MapMetrics : MonoBehaviour
     // controller data sources
     public GameObject leftController;
     public GameObject rightController;
-    private ProjectInputActions controls;
     public Transform head;
+
+    private ProjectInputActions controls;
+    private bool bHeld = false;
 
     long GetTimestamp()
     {
@@ -40,19 +42,21 @@ public class MapMetrics : MonoBehaviour
         GrabEventSystem.OnRelease.AddListener(ReleasedCallback);
         
 
-        //// set up the button listeners (this is a real pain in the ass)
-        //controls = new ProjectInputActions();
-        //InputAction leftGripAction = controls.XRILeftLocomotion.GrabMove;
+        // set up the button listeners (this is a real pain in the ass)
+        controls = new ProjectInputActions();
+        InputAction bButtonAction = controls.XRIRightInteraction.B;
+        bButtonAction.started += BButtonCallback;
+        // InputAction leftGripAction = controls.XRILeftLocomotion.GrabMove;
 
-        //leftGripAction.started += LeftPressedCallback;
-        //leftGripAction.canceled += LeftReleasedCallback;
+        // leftGripAction.started += LeftPressedCallback;
+        // leftGripAction.canceled += LeftReleasedCallback;
 
-        //InputAction rightGripAction = controls.XRIRightLocomotion.GrabMove;
+        // InputAction rightGripAction = controls.XRIRightLocomotion.GrabMove;
 
-        //rightGripAction.started += RightPressedCallback;
-        //rightGripAction.canceled += RightReleasedCallback;
+        // rightGripAction.started += RightPressedCallback;
+        // rightGripAction.canceled += RightReleasedCallback;
 
-        //controls.Enable();
+        controls.Enable();
     }
 
     void OnDisable()
@@ -66,22 +70,6 @@ public class MapMetrics : MonoBehaviour
         long epoch = GetTimestamp();
         string line = $"Update path,{head.position},{epoch}";
         ofile.WriteLineAsync(line);
-        // Get the right controller device
-        UnityEngine.XR.InputDevice rightHand =
-            UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.RightHand);
-
-        if (!rightHand.isValid || head)
-            return;
-
-        bool bDown = rightHand.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out bool bvalue) && bvalue;
-
-        if (bDown)
-        {
-            long epoch1 = GetTimestamp();
-             string line1 = $"MapToggled,{head.position},{epoch1}";
-            ofile.WriteLineAsync(line);
-
-        }
     }
 
     // grab event callback
@@ -116,6 +104,14 @@ public class MapMetrics : MonoBehaviour
             line = $"ReleasedLeft,{leftController.transform.position},{epoch}";
         }
 
+        ofile.WriteLineAsync(line);
+    }
+
+    void BButtonCallback(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("map toggled");
+        long epoch = GetTimestamp();
+        string line = $"MapToggled,{head.position},{epoch}";
         ofile.WriteLineAsync(line);
     }
 
