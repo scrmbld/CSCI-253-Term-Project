@@ -12,59 +12,57 @@ public class MultiChevronPath : MonoBehaviour
         public float spacing = 1f;
 
         [HideInInspector]
-        public GameObject container; // Stores arrows for this pair
+        public GameObject container;
     }
 
     public GameObject chevronPrefab;
     public List<ObjectPair> objectPairs = new List<ObjectPair>();
 
-    void Start()
+    void Update()
     {
-        GenerateAllArrows();
+        UpdateAllPairs();
     }
 
-    public void GenerateAllArrows()
+    void UpdateAllPairs()
     {
         foreach (var pair in objectPairs)
         {
-            GenerateForPair(pair);
+            if (pair.startPoint == null || pair.endPoint == null || chevronPrefab == null)
+                continue;
+
+            // Create container for this pair if missing
+            if (pair.container == null)
+            {
+                pair.container = new GameObject("ChevronPath_" + pair.startPoint.name);
+                pair.container.transform.parent = pair.startpoint;
+
+                // Spawn arrows initially
+                for (int i = 0; i < pair.arrowCount; i++)
+                {
+                    GameObject arrow = Instantiate(chevronPrefab, pair.container.transform);
+                }
+            }
+
+            UpdatePair(pair);
         }
     }
 
-    void GenerateForPair(ObjectPair pair)
+    void UpdatePair(ObjectPair pair)
     {
-        if (pair.startPoint == null || pair.endPoint == null || chevronPrefab == null)
-            return;
+        int childCount = pair.container.transform.childCount;
+        Vector3 dir = (pair.endPoint.position - pair.startPoint.position).normalized;
 
-        // Create a container for this pair (if not already)
-        if (pair.container == null)
+        for (int i = 0; i < childCount; i++)
         {
-            pair.container = new GameObject("ChevronGroup_" + pair.startPoint.name + "_" + pair.endPoint.name);
-            pair.container.transform.parent = this.transform;
-        }
+            Transform arrow = pair.container.transform.GetChild(i);
 
-        // Clear old arrows
-        foreach (Transform child in pair.container.transform)
-        {
-            Destroy(child.gameObject);
-        }
+            float distance = pair.spacing * (i + 1);
+            Vector3 pos = pair.startPoint.position + dir * distance;
 
-        Vector3 direction = (pair.endPoint.position - pair.startPoint.position).normalized;
+            arrow.position = pos;
 
-        float totalDistance = Vector3.Distance(pair.startPoint.position, pair.endPoint.position);
-        float stepDistance = Mathf.Clamp(pair.spacing, 0.1f, totalDistance / 2f);
-
-        for (int i = 0; i < pair.arrowCount; i++)
-        {
-            float t = (i + 1) * stepDistance;
-            if (t >= totalDistance) break;
-
-            Vector3 pos = pair.startPoint.position + direction * t;
-
-            GameObject arrow = Instantiate(chevronPrefab, pos, Quaternion.identity, pair.container.transform);
-
-            // Auto-rotate toward target
-            arrow.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            // Rotate arrow to face the target
+            arrow.rotation = Quaternion.LookRotation(dir);
         }
     }
 }
