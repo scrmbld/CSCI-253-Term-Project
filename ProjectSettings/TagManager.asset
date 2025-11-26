@@ -36,8 +36,8 @@ TagManager:
   - TransparentFX
   - Ignore Raycast
   - MiniIcon
-  - Overlay UI
   - Water
+  - UI
   - UI
   - Road
   - building
@@ -62,9 +62,8 @@ TagManager:
   - 
   - 
   - 
-  - 
   - XR Simulation
-  - 
+  - XR Simulation
   m_SortingLayers:
   - name: Default
     uniqueID: 0

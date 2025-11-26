@@ -53,10 +53,10 @@ public class ItemPlacer : MonoBehaviour
     /// <returns>The selected shape type x color tuple.</returns>
     (ShapeType, ShapeColor) UseRandomShape()
     {
-        // if (useHardcodedTypes)
-        // {
-        //     return (hardcodedShape, hardcodedColor);
-        // }
+        if (useHardcodedTypes)
+        {
+            return (hardcodedShape, hardcodedColor);
+        }
         // get a random shape from the set and then remove it from the set
         Debug.Log($"Number of item types available: {availableShapes.Count}");
         int usedIndex = (int)Random.Range(0, availableShapes.Count);
@@ -120,11 +120,18 @@ public class ItemPlacer : MonoBehaviour
         Debug.Log($"Generating item...");
 
 
-        // HACK: use the left controller as a proxy for the player's position
-        float worldMinX = minX + leftController.transform.position.x;
-        float worldMaxX = maxX + leftController.transform.position.x;
-        float worldMinZ = minZ + leftController.transform.position.z;
-        float worldMaxZ = maxZ + leftController.transform.position.z;
+        float worldMinX = minX;
+        float worldMaxX = maxX;
+        float worldMinZ = minZ;
+        float worldMaxZ = maxZ;
+        if (relativeToPlayer)
+        {
+            // HACK: use the left controller as a proxy for the player's position
+            worldMinX = minX + leftController.transform.position.x;
+            worldMaxX = maxX + leftController.transform.position.x;
+            worldMinZ = minZ + leftController.transform.position.z;
+            worldMaxZ = maxZ + leftController.transform.position.z;
+        }
 
         // get the item position
         if (GeneratePosition(worldMinX, worldMaxX, worldMinZ, worldMaxZ) is { } itemPos)

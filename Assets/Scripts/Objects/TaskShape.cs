@@ -24,8 +24,8 @@ namespace TaskShape
     /// </summary>
     public interface Shape
     {
-        static float translationThreshold = 0.3f;
-        static float rotationThreshold = 30.0f;
+        static float translationThreshold = 0.1f;
+        static float rotationThreshold = 8.0f;
         /// <summary>
         /// Returns true if this shape and the one passed in have symmetry equivalent transforms, within a threshold. 
         /// </summary>
