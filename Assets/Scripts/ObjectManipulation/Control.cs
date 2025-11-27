@@ -52,7 +52,7 @@ public class ManipulationControl : MonoBehaviour
 
         controls.Disable();
 
-        //transform.SetParent(null, true);
+        transform.SetParent(null, true);
 
         // If you subscribed to global events above, unsubscribe here:
         // GrabEventSystem.OnGrab.RemoveListener(OnAnyGrab);
@@ -67,7 +67,9 @@ public class ManipulationControl : MonoBehaviour
         float delta = Vector3.Distance(transform.position, leftController.transform.position);
         Debug.Log($"Grip (Left) pressed. Distance={delta:F3}");
 
-        if (delta < grabRadius && transform.parent == null)
+        //if (delta < grabRadius && transform.parent == null)
+        if (delta < grabRadius)
+
         {
             transform.SetParent(leftController.transform, true);
             IsGrabbedGlobal = true;
@@ -94,7 +96,8 @@ public class ManipulationControl : MonoBehaviour
         if (rightController == null) return;
 
         float delta = Vector3.Distance(transform.position, rightController.transform.position);
-        if (delta < grabRadius && transform.parent == null)
+        //if (delta < grabRadius && transform.parent == null)
+        if (delta < grabRadius)
         {
             transform.SetParent(rightController.transform, true);
             IsGrabbedGlobal = true;
