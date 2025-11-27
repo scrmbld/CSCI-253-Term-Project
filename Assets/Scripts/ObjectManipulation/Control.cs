@@ -52,7 +52,7 @@ public class ManipulationControl : MonoBehaviour
 
         controls.Disable();
 
-        transform.SetParent(null, true);
+        //transform.SetParent(null, true);
 
         // If you subscribed to global events above, unsubscribe here:
         // GrabEventSystem.OnGrab.RemoveListener(OnAnyGrab);
