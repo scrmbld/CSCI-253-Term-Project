@@ -15,7 +15,7 @@ public class CheckpointSequence
     public Transform[] checkpoints; // Each transform is the new checkpoint spot the checkpoint will move to
 
     public int currIndex = 0; // Current checkpoint in the sequence
-    [HideInInspector] public bool isComplete = false;
+    public bool isComplete = false;
 
     public Material completeMaterial; // Assign this in the inspector
 
@@ -69,5 +69,12 @@ public class CheckpointSequence
         {
             renderer.material = completeMaterial;
         }
+    }
+
+    public void HideItem(GameObject item)
+    {
+        Debug.Log($"Hiding item {item}");
+        Vector3 newPos = new Vector3 (0, -100, 0);
+        item.transform.position += newPos;
     }
 }

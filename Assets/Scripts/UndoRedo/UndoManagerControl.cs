@@ -24,11 +24,6 @@ public class UndoManagerControl : UndoManager
         Debug.Log($"undoStack size: {undoStack.Count}, redoStack size: {redoStack.Count}");
     }
 
-    // // Grab/Undo/Redo counts for testing metrics:
-    // public int TotalUndoCount { get; private set; }
-    // public int TotalRedoCount { get; private set; }
-    // public int TotalGrabCount { get; private set; }
-
     // Awake is called at start
     protected override void Awake()
     {

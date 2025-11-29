@@ -95,7 +95,11 @@ public class UndoTestManager : MonoBehaviour
     }
     private void OnGoalReached(GameObject item, GameObject goal)
     {
-        if (!taskStarted || taskCompleted) { return; }
+        if (!taskStarted || taskCompleted) 
+        { 
+            Debug.Log($"taskStarted: {taskStarted}, taskCompleted: {taskCompleted}");
+            return; 
+        }
 
         // Rejects goal if player is still holding object 
         // (Must place the object to count)
@@ -121,12 +125,6 @@ public class UndoTestManager : MonoBehaviour
                 CheckpointReached(sequence);
                 break;
             }
-
-            // After checkpoint reached, check if it was the final goal (all tasks complete)
-            if (AllSequencesComplete())
-            {
-                CompleteTask();
-            }
         }
     }
 
@@ -145,6 +143,12 @@ public class UndoTestManager : MonoBehaviour
         {
             sequence.Complete();
             Debug.Log($"{sequence.item.name} task complete");
+            sequence.HideItem(sequence.item);
+            if (AllSequencesComplete())
+            {
+                CompleteTask();
+            }
+
             return;
         }
 
