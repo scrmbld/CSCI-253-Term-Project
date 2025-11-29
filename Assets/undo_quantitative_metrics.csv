@@ -1,2 +1,4 @@
 TaskNumber,Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedoTask 
-Task 3,Experiment,72.74,0.00,19,0,0Task 3,Experiment,72.74,0.00,19,0,0
+Task 3,Experiment,72.74,0.00,19,0,0Task 3,Experiment,72.74,0.00,19,0,0Task 1,Control,264.77,0.00,7,4,0
+Task 3,Experiment,274.50,8.21,24,13,2
+Task 3,Experiment,274.50,8.21,24,13,2
