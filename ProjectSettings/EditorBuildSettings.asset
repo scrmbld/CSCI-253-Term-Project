@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Environments/SimplePoly City - Low Poly Assets_Demo Scene.unity
     guid: bad2c13a9fbb561428e51e7cc6848758
   - enabled: 1
-    path: Assets/Scenes/Features/Test Scenes/ObjectManipulation.unity
+    path: Assets/Scenes/Features/Prototype/ObjectManipulation.unity
     guid: 49bafbc879b5a11448773800d3920a13
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}

@@ -85,9 +85,8 @@ public class UndoMetrics
             string header = "TaskNumber,Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedo\n";
             File.WriteAllText(path, header);
         }
-        string condition = scrubTime > 0 ? "Experimental" : "Control";
 
-        string row = $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name},{condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
+        string row = $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name},{UndoManager.Instance.condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
 
         File.AppendAllText(path, row);
         Debug.Log($"{fileName} wrote to {path}");
@@ -97,5 +96,7 @@ public class UndoMetrics
     void Start()
     {
         startTime = Time.time;
+        Debug.Log("Metrics initialized");
+        SaveToCSV(startTime);
     }
 }
