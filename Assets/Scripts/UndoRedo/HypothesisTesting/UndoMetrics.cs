@@ -86,7 +86,7 @@ public class UndoMetrics
             File.WriteAllText(path, header);
         }
 
-        string row = $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name},{UndoManager.Instance.condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}";
+        string row = $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name},{UndoManager.Instance.condition},{completionTime:F2},{scrubTime:F2},{totalGrabCount},{totalUndoCount},{totalRedoCount}\n";
 
         File.AppendAllText(path, row);
         Debug.Log($"{fileName} wrote to {path}");
@@ -97,6 +97,5 @@ public class UndoMetrics
     {
         startTime = Time.time;
         Debug.Log("Metrics initialized");
-        SaveToCSV(startTime);
     }
 }
