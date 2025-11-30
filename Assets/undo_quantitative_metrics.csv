@@ -1,2 +1,2 @@
 TaskNumber,Condition,CompletionTimeSeconds,TotalScrubTime,TotalGrabs,TotalUndo,TotalRedo
-Task 3,Control,101.48,0.00,8,3,0Task 3,Control,101.48,0.00,8,3,0
+Task 3,Control,101.48,0.00,8,3,0Task 3,Control,101.48,0.00,8,3,0Task 1,Control,30.36,0.00,3,3,2Task 3,Experimental,123.39,14.41,9,7,2Task 3,Experimental,123.39,14.41,9,7,2
