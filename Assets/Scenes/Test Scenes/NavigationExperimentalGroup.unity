@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d338624f6ef2b6c428a9f37197371f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataDir: C:\ExperimentData\Map
+  dataDir: C:\ExperimentData\Nav\Experimental
   leftController: {fileID: 339896031}
   rightController: {fileID: 1197674157}
   head: {fileID: 1591592345}
