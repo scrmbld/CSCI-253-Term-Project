@@ -279,9 +279,13 @@ PrefabInstance:
       propertyPath: 'checkpointSequences.Array.data[1].checkpoints.Array.data[7]'
       value: 
       objectReference: {fileID: 2072592166}
+    - target: {fileID: 4360323101351539340, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5495847032256592831, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5598778602641960928, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: m_Name
@@ -289,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623700309063119930, guid: 1de808c369a7240409dc2a5a838c6414, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
